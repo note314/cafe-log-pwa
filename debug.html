@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Information</title>
+    <style>
+        body { font-family: monospace; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .error { color: red; }
+        .success { color: green; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>Starbucks PWA Debug Information</h1>
+    
+    <div class="debug-section">
+        <h2>Browser Cache Status</h2>
+        <button onclick="clearBrowserCache()">Clear Cache & Reload</button>
+        <p id="cacheStatus">Checking...</p>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Data Loading Test</h2>
+        <button onclick="testDataLoading()">Test Store Data</button>
+        <div id="dataTest"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Component Status</h2>
+        <button onclick="checkComponents()">Check Components</button>
+        <div id="componentStatus"></div>
+    </div>
+    
+    <script>
+        function clearBrowserCache() {
+            // Clear local storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Update service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(registration => {
+                        registration.unregister();
+                    });
+                });
+            }
+            
+            // Clear cache
+            if ('caches' in window) {
+                caches.keys().then(cacheNames => {
+                    cacheNames.forEach(cacheName => {
+                        caches.delete(cacheName);
+                    });
+                });
+            }
+            
+            document.getElementById('cacheStatus').innerHTML = '<span class="success">Cache cleared! Reloading...</span>';
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+        
+        async function testDataLoading() {
+            const output = document.getElementById('dataTest');
+            output.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('./data/store_list.json');
+                const data = await response.json();
+                
+                output.innerHTML = `
+                    <div class="success">✅ Data loaded successfully</div>
+                    <p>Total stores: ${data.stores ? data.stores.length : 'Unknown'}</p>
+                    <p>Total regions: ${data.regions ? Object.keys(data.regions).length : 'Unknown'}</p>
+                    <p>Total prefectures: ${data.prefectures ? Object.keys(data.prefectures).length : 'Unknown'}</p>
+                    <p>Data version: ${data.metadata ? data.metadata.version : 'Unknown'}</p>
+                `;
+            } catch (error) {
+                output.innerHTML = `<div class="error">❌ Error loading data: ${error.message}</div>`;
+            }
+        }
+        
+        function checkComponents() {
+            const output = document.getElementById('componentStatus');
+            const components = [
+                'starbucksApp',
+                'storageManager', 
+                'progressManager',
+                'qrManager',
+                'mapManager',
+                'headerManager',
+                'navigationManager',
+                'topPage',
+                'storesPage', 
+                'achievementsPage'
+            ];
+            
+            let html = '<ul>';
+            components.forEach(component => {
+                const status = window[component] ? 
+                    '<span class="success">✅ Loaded</span>' : 
+                    '<span class="error">❌ Missing</span>';
+                html += `<li>${component}: ${status}</li>`;
+            });
+            html += '</ul>';
+            
+            output.innerHTML = html;
+        }
+        
+        // Auto-run checks
+        setTimeout(() => {
+            testDataLoading();
+            checkComponents();
+        }, 1000);
+    </script>
+</body>
+</html>

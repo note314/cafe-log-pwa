@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe★Log - 公式サイト店舗データ抽出ツール</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #00704A;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .panel h2 {
+            color: #00704A;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            border-bottom: 3px solid #00704A;
+            padding-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: #00704A;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin: 0.5rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #005a38;
+            transform: translateY(-1px);
+        }
+
+        .btn-large {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00704A, #28a745);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-display {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #00704A;
+        }
+
+        .status-display.loading {
+            border-left-color: #ffc107;
+            background: #fff8e1;
+        }
+
+        .status-display.success {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .status-display.error {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: #00704A;
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00704A;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .prefecture-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+
+        .prefecture-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .prefecture-status {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .extraction-log {
+            background: #000;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            height: 200px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .store-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .store-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #00704A;
+        }
+
+        .store-name {
+            font-weight: 600;
+            color: #00704A;
+            margin-bottom: 0.25rem;
+        }
+
+        .store-address {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .store-coordinates {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #007bff;
+        }
+
+        .api-config {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .api-config h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #00704A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 公式サイト店舗データ抽出ツール</h1>
+            <p>スターバックス公式サイトから正確な店舗情報を自動取得し、高精度座標データを生成</p>
+        </div>
+
+        <div class="main-content">
+            <!-- 抽出制御パネル -->
+            <div class="panel">
+                <h2>📡 データ抽出</h2>
+                
+                <div class="api-config">
+                    <h4>🔑 API設定確認</h4>
+                    <p style="font-size: 0.9rem; margin: 0;">
+                        公式API: <code>store.starbucks.co.jp</code><br>
+                        Geocoding: Google Maps API
+                    </p>
+                </div>
+
+                <button class="btn btn-large btn-success" onclick="startFullExtraction()">
+                    🚀 全店舗データ抽出開始
+                </button>
+
+                <button class="btn btn-large btn-secondary" onclick="testSinglePrefecture()">
+                    🧪 テスト実行（1都道府県）
+                </button>
+
+                <button class="btn btn-large btn-warning" onclick="testAPIConnection()">
+                    🔌 API接続テスト
+                </button>
+
+                <button class="btn btn-large" onclick="manualDataInput()" style="background: #6f42c1;">
+                    ✏️ 手動データ入力モード
+                </button>
+
+                <button class="btn btn-large" onclick="showCORSWorkaround()" style="background: #e74c3c;">
+                    🛠️ CORS問題解決方法
+                </button>
+
+                <div class="progress-section hidden" id="extractionProgress">
+                    <h4>📊 抽出進捗</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
+                    <div class="status-display" id="currentStatus">
+                        待機中...
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalExtracted">0</div>
+                        <div class="stat-label">抽出済み店舗</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="successfulGeocode">0</div>
+                        <div class="stat-label">座標取得成功</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="failedGeocode">0</div>
+                        <div class="stat-label">座標取得失敗</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="completedPrefectures">0</div>
+                        <div class="stat-label">完了都道府県</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-warning" onclick="pauseExtraction()" id="pauseBtn" disabled>
+                    ⏸️ 一時停止
+                </button>
+                <button class="btn btn-secondary" onclick="resumeExtraction()" id="resumeBtn" disabled>
+                    ▶️ 再開
+                </button>
+                <button class="btn btn-secondary" onclick="stopExtraction()" id="stopBtn" disabled>
+                    ⏹️ 停止
+                </button>
+            </div>
+
+            <!-- 進捗監視パネル -->
+            <div class="panel">
+                <h2>📋 都道府県別進捗</h2>
+                
+                <div class="prefecture-list" id="prefectureList">
+                    <!-- 動的に生成 -->
+                </div>
+
+                <h3 style="margin-top: 1.5rem;">📜 実行ログ</h3>
+                <div class="extraction-log" id="extractionLog">
+                    > システム待機中...<br>
+                </div>
+            </div>
+        </div>
+
+        <!-- 抽出結果プレビュー -->
+        <div class="store-preview">
+            <h2>👀 抽出結果プレビュー</h2>
+            <div id="storePreviewContainer">
+                <p style="text-align: center; color: #666; margin: 2rem 0;">
+                    抽出開始後にデータが表示されます
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-success" onclick="exportToJSON()" id="exportBtn" disabled>
+                    💾 JSONファイルとしてエクスポート
+                </button>
+                <button class="btn btn-secondary" onclick="clearAllData()">
+                    🗑️ データクリア
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // グローバル変数
+        let extractedStores = [];
+        let extractionStatus = {
+            isRunning: false,
+            isPaused: false,
+            currentPrefecture: 0,
+            totalPrefectures: 47, // PREFECTURE_DATAの長さで後から更新
+            stats: {
+                totalExtracted: 0,
+                successfulGeocode: 0,
+                failedGeocode: 0,
+                completedPrefectures: 0
+            }
+        };
+
+        let geocoder = null;
+
+        // 都道府県データ（正確なURL付き）
+        const PREFECTURE_DATA = [
+            { name: '北海道', slug: 'hokkaido', url: 'https://store.starbucks.co.jp/pref/hokkaido/' },
+            { name: '青森県', slug: 'aomori', url: 'https://store.starbucks.co.jp/pref/aomori/' },
+            { name: '岩手県', slug: 'iwate', url: 'https://store.starbucks.co.jp/pref/iwate/' },
+            { name: '宮城県', slug: 'miyagi', url: 'https://store.starbucks.co.jp/pref/miyagi/' },
+            { name: '秋田県', slug: 'akita', url: 'https://store.starbucks.co.jp/pref/akita/' },
+            { name: '山形県', slug: 'yamagata', url: 'https://store.starbucks.co.jp/pref/yamagata/' },
+            { name: '福島県', slug: 'fukushima', url: 'https://store.starbucks.co.jp/pref/fukushima/' },
+            { name: '茨城県', slug: 'ibaraki', url: 'https://store.starbucks.co.jp/pref/ibaraki/' },
+            { name: '栃木県', slug: 'tochigi', url: 'https://store.starbucks.co.jp/pref/tochigi/' },
+            { name: '群馬県', slug: 'gunma', url: 'https://store.starbucks.co.jp/pref/gunma/' },
+            { name: '埼玉県', slug: 'saitama', url: 'https://store.starbucks.co.jp/pref/saitama/' },
+            { name: '千葉県', slug: 'chiba', url: 'https://store.starbucks.co.jp/pref/chiba/' },
+            { name: '東京都', slug: 'tokyo', url: 'https://store.starbucks.co.jp/pref/tokyo/' },
+            { name: '神奈川県', slug: 'kanagawa', url: 'https://store.starbucks.co.jp/pref/kanagawa/' },
+            { name: '新潟県', slug: 'niigata', url: 'https://store.starbucks.co.jp/pref/niigata/' },
+            { name: '富山県', slug: 'toyama', url: 'https://store.starbucks.co.jp/pref/toyama/' },
+            { name: '石川県', slug: 'ishikawa', url: 'https://store.starbucks.co.jp/pref/ishikawa/' },
+            { name: '福井県', slug: 'fukui', url: 'https://store.starbucks.co.jp/pref/fukui/' },
+            { name: '山梨県', slug: 'yamanashi', url: 'https://store.starbucks.co.jp/pref/yamanashi/' },
+            { name: '長野県', slug: 'nagano', url: 'https://store.starbucks.co.jp/pref/nagano/' },
+            { name: '岐阜県', slug: 'gifu', url: 'https://store.starbucks.co.jp/pref/gifu/' },
+            { name: '静岡県', slug: 'shizuoka', url: 'https://store.starbucks.co.jp/pref/shizuoka/' },
+            { name: '愛知県', slug: 'aichi', url: 'https://store.starbucks.co.jp/pref/aichi/' },
+            { name: '三重県', slug: 'mie', url: 'https://store.starbucks.co.jp/pref/mie/' },
+            { name: '滋賀県', slug: 'shiga', url: 'https://store.starbucks.co.jp/pref/shiga/' },
+            { name: '京都府', slug: 'kyoto', url: 'https://store.starbucks.co.jp/pref/kyoto/' },
+            { name: '大阪府', slug: 'osaka', url: 'https://store.starbucks.co.jp/pref/osaka/' },
+            { name: '兵庫県', slug: 'hyogo', url: 'https://store.starbucks.co.jp/pref/hyogo/' },
+            { name: '奈良県', slug: 'nara', url: 'https://store.starbucks.co.jp/pref/nara/' },
+            { name: '和歌山県', slug: 'wakayama', url: 'https://store.starbucks.co.jp/pref/wakayama/' },
+            { name: '鳥取県', slug: 'tottori', url: 'https://store.starbucks.co.jp/pref/tottori/' },
+            { name: '島根県', slug: 'shimane', url: 'https://store.starbucks.co.jp/pref/shimane/' },
+            { name: '岡山県', slug: 'okayama', url: 'https://store.starbucks.co.jp/pref/okayama/' },
+            { name: '広島県', slug: 'hiroshima', url: 'https://store.starbucks.co.jp/pref/hiroshima/' },
+            { name: '山口県', slug: 'yamaguchi', url: 'https://store.starbucks.co.jp/pref/yamaguchi/' },
+            { name: '徳島県', slug: 'tokushima', url: 'https://store.starbucks.co.jp/pref/tokushima/' },
+            { name: '香川県', slug: 'kagawa', url: 'https://store.starbucks.co.jp/pref/kagawa/' },
+            { name: '愛媛県', slug: 'ehime', url: 'https://store.starbucks.co.jp/pref/ehime/' },
+            { name: '高知県', slug: 'kochi', url: 'https://store.starbucks.co.jp/pref/kochi/' },
+            { name: '福岡県', slug: 'fukuoka', url: 'https://store.starbucks.co.jp/pref/fukuoka/' },
+            { name: '佐賀県', slug: 'saga', url: 'https://store.starbucks.co.jp/pref/saga/' },
+            { name: '長崎県', slug: 'nagasaki', url: 'https://store.starbucks.co.jp/pref/nagasaki/' },
+            { name: '熊本県', slug: 'kumamoto', url: 'https://store.starbucks.co.jp/pref/kumamoto/' },
+            { name: '大分県', slug: 'oita', url: 'https://store.starbucks.co.jp/pref/oita/' },
+            { name: '宮崎県', slug: 'miyazaki', url: 'https://store.starbucks.co.jp/pref/miyazaki/' },
+            { name: '鹿児島県', slug: 'kagoshima', url: 'https://store.starbucks.co.jp/pref/kagoshima/' },
+            { name: '沖縄県', slug: 'okinawa', url: 'https://store.starbucks.co.jp/pref/okinawa/' }
+        ];
+
+        // 下位互換のため
+        const PREFECTURES = PREFECTURE_DATA.map(p => p.name);
+
+        // 都道府県→エリアマッピング
+        const PREFECTURE_TO_AREA = {
+            '北海道': '北海道',
+            '青森県': '東北', '岩手県': '東北', '宮城県': '東北', '秋田県': '東北', '山形県': '東北', '福島県': '東北',
+            '茨城県': '関東', '栃木県': '関東', '群馬県': '関東', '埼玉県': '関東', '千葉県': '関東', '東京都': '関東', '神奈川県': '関東',
+            '新潟県': '中部', '富山県': '中部', '石川県': '中部', '福井県': '中部', '山梨県': '中部', '長野県': '中部', '岐阜県': '中部', '静岡県': '中部', '愛知県': '中部',
+            '三重県': '近畿', '滋賀県': '近畿', '京都府': '近畿', '大阪府': '近畿', '兵庫県': '近畿', '奈良県': '近畿', '和歌山県': '近畿',
+            '鳥取県': '中国', '島根県': '中国', '岡山県': '中国', '広島県': '中国', '山口県': '中国',
+            '徳島県': '四国', '香川県': '四国', '愛媛県': '四国', '高知県': '四国',
+            '福岡県': '九州', '佐賀県': '九州', '長崎県': '九州', '熊本県': '九州', '大分県': '九州', '宮崎県': '九州', '鹿児島県': '九州', '沖縄県': '九州'
+        };
+
+        // Google Maps API初期化
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            logMessage('✅ Google Maps API initialized');
+        }
+
+        // 初期化
+        function init() {
+            // 都道府県数を更新
+            extractionStatus.totalPrefectures = PREFECTURE_DATA.length;
+            
+            createPrefectureList();
+            logMessage('🚀 Official Store Extractor Tool initialized');
+            logMessage(`📊 対象都道府県: ${PREFECTURE_DATA.length}件`);
+        }
+
+        // 都道府県リスト作成
+        function createPrefectureList() {
+            const container = document.getElementById('prefectureList');
+            container.innerHTML = PREFECTURE_DATA.map((prefData, index) => `
+                <div class="prefecture-item" id="prefecture-${index}">
+                    <span>${prefData.name}</span>
+                    <span class="prefecture-status status-pending" id="status-${index}">待機中</span>
+                </div>
+            `).join('');
+        }
+
+        // フル抽出開始
+        async function startFullExtraction() {
+            if (extractionStatus.isRunning) {
+                logMessage('❌ 既に抽出が実行中です');
+                return;
+            }
+
+            if (!geocoder) {
+                logMessage('❌ Google Maps APIが初期化されていません');
+                return;
+            }
+
+            const confirmed = confirm(
+                `全都道府県（${PREFECTURE_DATA.length}件）の店舗データを抽出しますか？\n\n` +
+                '⚠️ 注意事項:\n' +
+                '• 処理には20-30分程度かかる場合があります\n' +
+                '• 公式サイトから直接スクレイピングします\n' +
+                '• 途中で一時停止・再開が可能です'
+            );
+
+            if (!confirmed) return;
+
+            logMessage('🚀 全店舗データ抽出を開始...');
+            resetStats();
+            showProgress();
+            enableControls();
+
+            extractionStatus.isRunning = true;
+            extractionStatus.currentPrefecture = 0;
+
+            try {
+                for (let i = 0; i < PREFECTURE_DATA.length; i++) {
+                    if (!extractionStatus.isRunning) {
+                        logMessage('⏹️ 抽出が停止されました');
+                        break;
+                    }
+
+                    while (extractionStatus.isPaused) {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+
+                    extractionStatus.currentPrefecture = i;
+                    await processPrefecture(PREFECTURE_DATA[i].name, i);
+                    
+                    // 負荷軽減のための待機
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+
+                if (extractionStatus.isRunning) {
+                    logMessage('✅ 全都道府県の抽出が完了しました！');
+                    updateStatus('抽出完了！', 'success');
+                    enableExport();
+                }
+
+            } catch (error) {
+                logMessage(`❌ 抽出エラー: ${error.message}`);
+                updateStatus(`エラー: ${error.message}`, 'error');
+            } finally {
+                extractionStatus.isRunning = false;
+                disableControls();
+            }
+        }
+
+        // テスト実行（単一都道府県）
+        async function testSinglePrefecture() {
+            if (extractionStatus.isRunning) {
+                logMessage('❌ 既に抽出が実行中です');
+                return;
+            }
+
+            const testPrefecture = '東京都';
+            logMessage(`🧪 テスト実行: ${testPrefecture}`);
+            
+            showProgress();
+            extractionStatus.isRunning = true;
+
+            try {
+                await processPrefecture(testPrefecture, 12); // 東京都のインデックス
+                logMessage('✅ テスト完了');
+                updateStatus('テスト完了', 'success');
+                enableExport();
+            } catch (error) {
+                logMessage(`❌ テストエラー: ${error.message}`);
+                updateStatus(`テストエラー: ${error.message}`, 'error');
+            } finally {
+                extractionStatus.isRunning = false;
+            }
+        }
+
+        // 都道府県別処理
+        async function processPrefecture(prefecture, index) {
+            logMessage(`📍 処理開始: ${prefecture}`);
+            updatePrefectureStatus(index, 'processing');
+            updateStatus(`${prefecture} のデータを取得中...`, 'loading');
+
+            try {
+                // 公式APIから店舗データ取得
+                const officialStores = await fetchOfficialStores(prefecture);
+                logMessage(`  → ${officialStores.length}店舗を取得`);
+
+                // 各店舗の座標を取得
+                let successCount = 0;
+                let failCount = 0;
+
+                for (let i = 0; i < officialStores.length; i++) {
+                    const store = officialStores[i];
+                    updateStatus(`${prefecture} ${i + 1}/${officialStores.length}: ${store.name}`, 'loading');
+
+                    try {
+                        const coordinates = await getCoordinatesFromAddress(store.address);
+                        
+                        if (coordinates) {
+                            const enrichedStore = {
+                                storeInfo: {
+                                    id: generateStoreId(store.name, prefecture),
+                                    name: store.name,
+                                    address: store.address,
+                                    coordinates: coordinates,
+                                    prefecture: prefecture,
+                                    city: extractCity(store.address),
+                                    area: PREFECTURE_TO_AREA[prefecture] || '不明'
+                                },
+                                businessInfo: {
+                                    hours: store.hours || null,
+                                    phone: store.phone || null,
+                                    features: ['Wi-Fi', '電源', '禁煙'] // デフォルト設備
+                                },
+                                extractionInfo: {
+                                    source: 'official',
+                                    extractedAt: new Date().toISOString(),
+                                    geocodingAccuracy: coordinates.accuracy || 'unknown'
+                                }
+                            };
+
+                            extractedStores.push(enrichedStore);
+                            successCount++;
+                            extractionStatus.stats.successfulGeocode++;
+                            
+                            logMessage(`    ✅ ${store.name}: 座標取得成功`);
+                        } else {
+                            failCount++;
+                            extractionStatus.stats.failedGeocode++;
+                            logMessage(`    ❌ ${store.name}: 座標取得失敗`);
+                        }
+
+                        extractionStatus.stats.totalExtracted++;
+                        updateStats();
+                        updatePreview();
+
+                        // Geocoding API制限対策
+                        await new Promise(resolve => setTimeout(resolve, 100));
+
+                    } catch (geoError) {
+                        failCount++;
+                        extractionStatus.stats.failedGeocode++;
+                        logMessage(`    ❌ ${store.name}: ${geoError.message}`);
+                    }
+                }
+
+                updatePrefectureStatus(index, 'completed');
+                extractionStatus.stats.completedPrefectures++;
+                
+                logMessage(`✅ ${prefecture} 完了: 成功 ${successCount}件、失敗 ${failCount}件`);
+                
+                // プログレス更新
+                const progress = ((index + 1) / PREFECTURE_DATA.length) * 100;
+                updateProgress(progress);
+
+            } catch (error) {
+                updatePrefectureStatus(index, 'error');
+                logMessage(`❌ ${prefecture} エラー: ${error.message}`);
+                throw error;
+            }
+        }
+
+        // 公式サイトから店舗データ取得（HTMLスクレイピング）
+        async function fetchOfficialStores(prefecture) {
+            logMessage(`  🌐 公式サイト取得: ${prefecture}`);
+            
+            // 都道府県データを検索
+            const prefData = PREFECTURE_DATA.find(p => p.name === prefecture);
+            if (!prefData) {
+                throw new Error(`都道府県データが見つかりません: ${prefecture}`);
+            }
+            
+            return await scrapeStoresFromPrefecturePage(prefData);
+        }
+
+        // 都道府県ページから店舗データをスクレイピング
+        async function scrapeStoresFromPrefecturePage(prefData) {
+            logMessage(`  📄 ページ解析: ${prefData.url}`);
+            
+            try {
+                // 複数のプロキシを順番に試行（ヘッダー追加）
+                const corsWorkarounds = [
+                    // AllOrigins with headers
+                    { 
+                        url: `https://api.allorigins.win/get?url=${encodeURIComponent(prefData.url)}`,
+                        options: {
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            }
+                        }
+                    },
+                    // Proxy with custom headers
+                    { 
+                        url: `https://corsproxy.io/?${encodeURIComponent(prefData.url)}`,
+                        options: {
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            }
+                        }
+                    },
+                    // Manual data input fallback
+                    { url: 'manual', manual: true }
+                ];
+                
+                let html = null;
+                
+                for (let i = 0; i < corsWorkarounds.length; i++) {
+                    const workaround = corsWorkarounds[i];
+                    try {
+                        logMessage(`    🔄 試行 ${i + 1}/${corsWorkarounds.length}: ${workaround.url.split('?')[0].split('/').pop()}`);
+                        
+                        const response = await fetch(workaround.url);
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        
+                        let data = await response.text();
+                        
+                        // AllOriginsの場合、ネストされたレスポンスを展開
+                        if (workaround.url.includes('allorigins.win')) {
+                            try {
+                                const jsonData = JSON.parse(data);
+                                if (jsonData.contents) {
+                                    data = jsonData.contents;
+                                }
+                            } catch (e) {
+                                logMessage(`    ❌ AllOriginsレスポンス解析失敗: ${e.message}`);
+                                continue;
+                            }
+                        }
+                        
+                        html = data;
+                        logMessage(`    ✅ HTML取得成功: ${workaround.url.split('?')[0].split('/').pop()}`);
+                        break;
+                        
+                    } catch (error) {
+                        logMessage(`    ❌ 試行 ${i + 1} 失敗: ${error.message}`);
+                        if (i === corsWorkarounds.length - 1) {
+                            throw new Error(`全ての CORS 回避手段が失敗: ${error.message}`);
+                        }
+                    }
+                }
+                
+                if (!html) {
+                    throw new Error('HTMLの取得に失敗しました');
+                }
+                
+                // HTMLから店舗データを抽出
+                const stores = parseStoresFromHTML(html, prefData);
+                logMessage(`  ✅ ${stores.length}店舗を抽出: ${prefData.name}`);
+                
+                return stores;
+                
+            } catch (error) {
+                logMessage(`  ❌ スクレイピングエラー: ${error.message}`);
+                throw error;
+            }
+        }
+
+        // HTMLから店舗データを解析
+        function parseStoresFromHTML(html, prefData) {
+            logMessage(`    🔍 HTML解析開始...`);
+            
+            const stores = [];
+            
+            // 仮想的なDOMパーサーとして使用（実際のHTMLパースロジック）
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // 店舗情報を含む要素を検索（複数の可能なセレクターを試行）
+            const possibleSelectors = [
+                '.store-list .store-item',
+                '.shop-list .shop-item', 
+                '.shop_list .shop_item',
+                '.store_list .store_item',
+                'article.store',
+                'div.store',
+                '.store-info',
+                '.shop-info',
+                'li[data-store]',
+                '.store-block'
+            ];
+            
+            let storeElements = [];
+            
+            for (const selector of possibleSelectors) {
+                storeElements = doc.querySelectorAll(selector);
+                if (storeElements.length > 0) {
+                    logMessage(`    ✅ 店舗要素発見: ${selector} (${storeElements.length}件)`);
+                    break;
+                }
+            }
+            
+            if (storeElements.length === 0) {
+                // セレクターで見つからない場合、テキストベースで抽出
+                logMessage(`    🔄 テキストベース抽出を試行...`);
+                return parseStoresFromText(html, prefData);
+            }
+            
+            // 各店舗要素から情報を抽出
+            storeElements.forEach((element, index) => {
+                try {
+                    const storeData = extractStoreDataFromElement(element, prefData);
+                    if (storeData.name && storeData.address) {
+                        stores.push(storeData);
+                        logMessage(`    📍 ${index + 1}: ${storeData.name}`);
+                    }
+                } catch (e) {
+                    logMessage(`    ❌ 店舗${index + 1}の解析に失敗: ${e.message}`);
+                }
+            });
+            
+            return stores;
+        }
+
+        // DOM要素から店舗データを抽出
+        function extractStoreDataFromElement(element, prefData) {
+            const storeData = {
+                name: '',
+                address: '',
+                hours: null,
+                phone: null
+            };
+            
+            // 店舗名抽出（複数のセレクターを試行）
+            const nameSelectors = ['.store-name', '.shop-name', '.name', 'h3', 'h4', '.title'];
+            for (const selector of nameSelectors) {
+                const nameEl = element.querySelector(selector);
+                if (nameEl && nameEl.textContent.trim()) {
+                    storeData.name = nameEl.textContent.trim();
+                    break;
+                }
+            }
+            
+            // 住所抽出
+            const addressSelectors = ['.store-address', '.shop-address', '.address', '.addr'];
+            for (const selector of addressSelectors) {
+                const addressEl = element.querySelector(selector);
+                if (addressEl && addressEl.textContent.trim()) {
+                    storeData.address = addressEl.textContent.trim();
+                    break;
+                }
+            }
+            
+            // 営業時間抽出
+            const hoursSelectors = ['.store-hours', '.hours', '.time', '.business-hours'];
+            for (const selector of hoursSelectors) {
+                const hoursEl = element.querySelector(selector);
+                if (hoursEl && hoursEl.textContent.trim()) {
+                    storeData.hours = hoursEl.textContent.trim();
+                    break;
+                }
+            }
+            
+            // 電話番号抽出
+            const phoneSelectors = ['.store-phone', '.phone', '.tel'];
+            for (const selector of phoneSelectors) {
+                const phoneEl = element.querySelector(selector);
+                if (phoneEl && phoneEl.textContent.trim()) {
+                    storeData.phone = phoneEl.textContent.trim();
+                    break;
+                }
+            }
+            
+            return storeData;
+        }
+
+        // テキストベースでの店舗データ抽出
+        function parseStoresFromText(html, prefData) {
+            logMessage(`    📝 テキスト解析モード`);
+            
+            const stores = [];
+            
+            // 「○○店」のパターンを検索
+            const storeNamePattern = /([^。\n]*?店)/g;
+            const storeMatches = html.match(storeNamePattern) || [];
+            
+            logMessage(`    🔍 店名候補: ${storeMatches.length}件`);
+            
+            // 住所パターンを検索（都道府県名を含む住所）
+            const addressPattern = new RegExp(`(${prefData.name}[^。\\n]*?)(?=[。\\n]|$)`, 'g');
+            const addressMatches = html.match(addressPattern) || [];
+            
+            logMessage(`    🔍 住所候補: ${addressMatches.length}件`);
+            
+            // 店名と住所をペアリング
+            const minLength = Math.min(storeMatches.length, addressMatches.length);
+            for (let i = 0; i < minLength; i++) {
+                const name = storeMatches[i].trim();
+                const address = addressMatches[i].trim();
+                
+                if (name && address && name !== address) {
+                    stores.push({
+                        name: name,
+                        address: address,
+                        hours: null,
+                        phone: null
+                    });
+                }
+            }
+            
+            return stores;
+        }
+
+        // APIクエリ実行
+        async function fetchStoresByQuery(apiBase, params) {
+            const queryParams = new URLSearchParams();
+            
+            // 基本パラメータ
+            queryParams.append('limit', '100');
+            queryParams.append('offset', '0');
+            
+            // 検索パラメータ追加
+            Object.keys(params).forEach(key => {
+                if (params[key]) {
+                    queryParams.append(key, params[key]);
+                }
+            });
+            
+            const targetUrl = `${apiBase}?${queryParams.toString()}`;
+            logMessage(`    📡 API呼び出し: ${targetUrl}`);
+            
+            // CORS対策: 複数のプロキシを順番に試行
+            const corsWorkarounds = [
+                // 直接アクセス（CORS許可されている場合）
+                { url: targetUrl, options: { mode: 'cors' } },
+                // AllOrigins
+                { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}` },
+                // ThingProxy
+                { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}` },
+                // cors-anywhere (最後の手段)
+                { url: `https://cors-anywhere.herokuapp.com/${targetUrl}`, 
+                  options: { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Origin': 'https://store.starbucks.co.jp' } } }
+            ];
+            
+            for (let i = 0; i < corsWorkarounds.length; i++) {
+                const workaround = corsWorkarounds[i];
+                try {
+                    logMessage(`    🔄 試行 ${i + 1}/${corsWorkarounds.length}: ${workaround.url.split('?')[0]}`);
+                    
+                    const response = await fetch(workaround.url, workaround.options || {});
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    let data = await response.json();
+                    
+                    // AllOriginsの場合、ネストされたレスポンスを展開
+                    if (data.contents) {
+                        try {
+                            data = JSON.parse(data.contents);
+                        } catch (e) {
+                            logMessage(`    ❌ AllOriginsレスポンス解析失敗: ${e.message}`);
+                            continue;
+                        }
+                    }
+                    
+                    logMessage(`    ✅ API成功: ${workaround.url.split('?')[0].split('/').pop()}`);
+                    return parseAPIResponse(data);
+                    
+                } catch (error) {
+                    logMessage(`    ❌ 試行 ${i + 1} 失敗: ${error.message}`);
+                    if (i === corsWorkarounds.length - 1) {
+                        throw new Error(`全ての CORS 回避手段が失敗: ${error.message}`);
+                    }
+                }
+            }
+        }
+
+        // APIレスポンス解析
+        function parseAPIResponse(data) {
+            // 詳細なレスポンス構造分析
+            logMessage('    🔍 レスポンス構造解析中...');
+            analyzeResponseStructure(data);
+            
+            // 複数の可能なレスポンス構造に対応
+            let stores = [];
+            
+            if (data.stores) {
+                stores = data.stores;
+                logMessage(`    ✅ データ形式: data.stores (${stores.length}件)`);
+            } else if (data.results) {
+                stores = data.results;
+                logMessage(`    ✅ データ形式: data.results (${stores.length}件)`);
+            } else if (data.data) {
+                stores = data.data;
+                logMessage(`    ✅ データ形式: data.data (${stores.length}件)`);
+            } else if (data.Items) {
+                stores = data.Items;
+                logMessage(`    ✅ データ形式: data.Items (${stores.length}件)`);
+            } else if (data.response && data.response.items) {
+                stores = data.response.items;
+                logMessage(`    ✅ データ形式: data.response.items (${stores.length}件)`);
+            } else if (Array.isArray(data)) {
+                stores = data;
+                logMessage(`    ✅ データ形式: 配列 (${stores.length}件)`);
+            } else {
+                logMessage('    ⚠️ 未知のAPIレスポンス構造');
+                console.log('API Response:', data);
+                return [];
+            }
+            
+            const parsedStores = stores.map(store => ({
+                name: extractStoreName(store),
+                address: extractStoreAddress(store),
+                hours: extractStoreHours(store),
+                phone: extractStorePhone(store),
+                services: extractStoreServices(store)
+            })).filter(store => store.name && store.address);
+            
+            logMessage(`    📊 解析結果: ${parsedStores.length}/${stores.length}件が有効`);
+            return parsedStores;
+        }
+
+        // レスポンス構造詳細分析
+        function analyzeResponseStructure(data) {
+            const analysis = {
+                type: typeof data,
+                isArray: Array.isArray(data),
+                keys: Object.keys(data || {}),
+                sampleData: {}
+            };
+            
+            // トップレベルキー分析
+            if (typeof data === 'object' && data !== null) {
+                analysis.keys.forEach(key => {
+                    const value = data[key];
+                    analysis.sampleData[key] = {
+                        type: typeof value,
+                        isArray: Array.isArray(value),
+                        length: Array.isArray(value) ? value.length : undefined,
+                        keys: typeof value === 'object' && value !== null && !Array.isArray(value) ? Object.keys(value) : undefined
+                    };
+                });
+            }
+            
+            logMessage(`    📋 構造分析: ${JSON.stringify(analysis, null, 2)}`);
+            
+            // messageフィールドの内容を詳細表示
+            if (data && data.message) {
+                logMessage(`    💬 メッセージ内容: "${data.message}"`);
+                
+                // messageがJSONの可能性もチェック
+                try {
+                    const messageAsJson = JSON.parse(data.message);
+                    logMessage(`    🔄 メッセージはJSON形式でした`);
+                    logMessage(`    📋 メッセージJSON構造: ${JSON.stringify(messageAsJson, null, 2)}`);
+                } catch (e) {
+                    logMessage(`    📝 メッセージはプレーンテキスト`);
+                }
+            }
+            
+            // 可能な店舗データの場所を推測
+            const possibleStoreArrays = [];
+            if (data && typeof data === 'object') {
+                Object.keys(data).forEach(key => {
+                    const value = data[key];
+                    if (Array.isArray(value) && value.length > 0) {
+                        possibleStoreArrays.push({
+                            key: key,
+                            length: value.length,
+                            sampleItem: value[0]
+                        });
+                    }
+                });
+            }
+            
+            if (possibleStoreArrays.length > 0) {
+                logMessage(`    🎯 店舗データ候補: ${possibleStoreArrays.map(arr => `${arr.key}(${arr.length}件)`).join(', ')}`);
+                possibleStoreArrays.forEach(arr => {
+                    logMessage(`    📝 ${arr.key}のサンプル: ${JSON.stringify(arr.sampleItem, null, 2)}`);
+                });
+            } else {
+                logMessage('    ❌ 配列形式のデータが見つかりません');
+                
+                // 全てのフィールドの値を表示（デバッグ）
+                if (data && typeof data === 'object') {
+                    Object.keys(data).forEach(key => {
+                        const value = data[key];
+                        if (typeof value === 'string' && value.length < 200) {
+                            logMessage(`    🔍 ${key}: "${value}"`);
+                        } else if (typeof value === 'object') {
+                            logMessage(`    🔍 ${key}: ${JSON.stringify(value)}`);
+                        }
+                    });
+                }
+            }
+        }
+
+        // 店舗情報抽出ヘルパー関数
+        function extractStoreName(store) {
+            return store.name || store.shop_name || store.storeName || store.title || '';
+        }
+
+        function extractStoreAddress(store) {
+            return store.address || store.full_address || store.addr || store.location || '';
+        }
+
+        function extractStoreHours(store) {
+            return store.hours || store.business_hours || store.openHours || store.time || null;
+        }
+
+        function extractStorePhone(store) {
+            return store.phone || store.tel || store.telephone || store.contact || null;
+        }
+
+        function extractStoreServices(store) {
+            const services = store.services || store.amenities || store.features || [];
+            return Array.isArray(services) ? services : [];
+        }
+
+        // 都道府県コード取得
+        function getPrefectureCode(prefecture) {
+            const prefectureCodes = {
+                '北海道': '01', '青森県': '02', '岩手県': '03', '宮城県': '04', '秋田県': '05',
+                '山形県': '06', '福島県': '07', '茨城県': '08', '栃木県': '09', '群馬県': '10',
+                '埼玉県': '11', '千葉県': '12', '東京都': '13', '神奈川県': '14', '新潟県': '15',
+                '富山県': '16', '石川県': '17', '福井県': '18', '山梨県': '19', '長野県': '20',
+                '岐阜県': '21', '静岡県': '22', '愛知県': '23', '三重県': '24', '滋賀県': '25',
+                '京都府': '26', '大阪府': '27', '兵庫県': '28', '奈良県': '29', '和歌山県': '30',
+                '鳥取県': '31', '島根県': '32', '岡山県': '33', '広島県': '34', '山口県': '35',
+                '徳島県': '36', '香川県': '37', '愛媛県': '38', '高知県': '39', '福岡県': '40',
+                '佐賀県': '41', '長崎県': '42', '熊本県': '43', '大分県': '44', '宮崎県': '45',
+                '鹿児島県': '46', '沖縄県': '47'
+            };
+            return prefectureCodes[prefecture] || null;
+        }
+
+        // 重複店舗除去
+        function removeDuplicateStores(stores) {
+            const seen = new Set();
+            return stores.filter(store => {
+                const key = `${store.name}_${store.address}`;
+                if (seen.has(key)) {
+                    return false;
+                }
+                seen.add(key);
+                return true;
+            });
+        }
+
+        // フォールバック: HTMLスクレイピング
+        async function fallbackHTMLScraping(prefecture) {
+            logMessage(`    🔄 HTMLスクレイピング フォールバック: ${prefecture}`);
+            
+            try {
+                // プロキシ経由で公式サイトにアクセス
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const targetUrl = `https://store.starbucks.co.jp/?nid=mm&prefecture=${encodeURIComponent(prefecture)}`;
+                
+                const response = await fetch(proxyUrl + targetUrl);
+                const html = await response.text();
+                
+                // HTMLからJavaScriptの初期データを抽出
+                const scriptMatches = html.match(/<script[^>]*>([\s\S]*?)<\/script>/gi);
+                const stores = [];
+                
+                for (const script of scriptMatches || []) {
+                    // 店舗データを含むJSONを探す
+                    const jsonMatches = script.match(/(\{[\s\S]*?"stores"[\s\S]*?\})/g);
+                    for (const jsonMatch of jsonMatches || []) {
+                        try {
+                            const data = JSON.parse(jsonMatch);
+                            if (data.stores) {
+                                stores.push(...parseAPIResponse(data));
+                            }
+                        } catch (e) {
+                            // JSON解析失敗は無視
+                        }
+                    }
+                }
+                
+                logMessage(`    📄 HTML解析結果: ${stores.length}店舗`);
+                return stores;
+                
+            } catch (error) {
+                logMessage(`    ❌ HTMLスクレイピング失敗: ${error.message}`);
+                return [];
+            }
+        }
+
+        // 住所から座標取得
+        async function getCoordinatesFromAddress(address) {
+            return new Promise((resolve, reject) => {
+                geocoder.geocode({ address: address, region: 'JP' }, (results, status) => {
+                    if (status === 'OK' && results.length > 0) {
+                        const result = results[0];
+                        const location = result.geometry.location;
+                        
+                        // 精度判定
+                        let accuracy = 'medium';
+                        switch (result.geometry.location_type) {
+                            case 'ROOFTOP': accuracy = 'high'; break;
+                            case 'RANGE_INTERPOLATED': accuracy = 'medium'; break;
+                            case 'GEOMETRIC_CENTER': accuracy = 'low'; break;
+                            case 'APPROXIMATE': accuracy = 'very_low'; break;
+                        }
+
+                        resolve({
+                            latitude: location.lat(),
+                            longitude: location.lng(),
+                            accuracy: accuracy,
+                            formatted_address: result.formatted_address
+                        });
+                    } else {
+                        reject(new Error(`Geocoding failed: ${status}`));
+                    }
+                });
+            });
+        }
+
+        // 店舗ID生成
+        function generateStoreId(storeName, prefecture) {
+            const prefCode = prefecture.replace(/[都道府県]/g, '');
+            const storeCode = storeName
+                .replace(/スターバックス|コーヒー|店/g, '')
+                .replace(/[^ぁ-んァ-ヶ一-龯a-zA-Z0-9]/g, '_')
+                .toLowerCase();
+            
+            const timestamp = Date.now().toString().slice(-6);
+            return `store_${prefCode}_${storeCode}_${timestamp}`;
+        }
+
+        // 市区町村抽出
+        function extractCity(address) {
+            const cityMatch = address.match(/([^都道府県]+[都道府県])(.+?[市区町村])/);
+            return cityMatch ? cityMatch[2] : '';
+        }
+
+        // UI更新関数群
+        function updateProgress(percentage) {
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = `${percentage}%`;
+            progressFill.textContent = `${percentage.toFixed(1)}%`;
+        }
+
+        function updateStatus(message, type = 'loading') {
+            const statusElement = document.getElementById('currentStatus');
+            statusElement.textContent = message;
+            statusElement.className = `status-display ${type}`;
+        }
+
+        function updatePrefectureStatus(index, status) {
+            const statusElement = document.getElementById(`status-${index}`);
+            const statusText = {
+                'pending': '待機中',
+                'processing': '処理中',
+                'completed': '完了',
+                'error': 'エラー'
+            };
+            
+            statusElement.textContent = statusText[status];
+            statusElement.className = `prefecture-status status-${status}`;
+        }
+
+        function updateStats() {
+            document.getElementById('totalExtracted').textContent = extractionStatus.stats.totalExtracted;
+            document.getElementById('successfulGeocode').textContent = extractionStatus.stats.successfulGeocode;
+            document.getElementById('failedGeocode').textContent = extractionStatus.stats.failedGeocode;
+            document.getElementById('completedPrefectures').textContent = extractionStatus.stats.completedPrefectures;
+        }
+
+        function updatePreview() {
+            const container = document.getElementById('storePreviewContainer');
+            const recentStores = extractedStores.slice(-5); // 最新5件を表示
+            
+            if (recentStores.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">まだデータがありません</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <p style="margin-bottom: 1rem; color: #666;">最新の抽出結果（${recentStores.length}件 / 全${extractedStores.length}件）</p>
+                ${recentStores.map(store => `
+                    <div class="store-item">
+                        <div class="store-name">${store.storeInfo.name}</div>
+                        <div class="store-address">📍 ${store.storeInfo.address}</div>
+                        <div class="store-coordinates">
+                            座標: ${store.storeInfo.coordinates.latitude.toFixed(6)}, ${store.storeInfo.coordinates.longitude.toFixed(6)}
+                            (精度: ${store.extractionInfo.geocodingAccuracy})
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function logMessage(message) {
+            const logContainer = document.getElementById('extractionLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logContainer.innerHTML += `<span style="color: #888;">[${timestamp}]</span> ${message}<br>`;
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function showProgress() {
+            document.getElementById('extractionProgress').classList.remove('hidden');
+        }
+
+        function enableControls() {
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = false;
+        }
+
+        function disableControls() {
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('resumeBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+        }
+
+        function enableExport() {
+            document.getElementById('exportBtn').disabled = false;
+        }
+
+        function resetStats() {
+            extractionStatus.stats = {
+                totalExtracted: 0,
+                successfulGeocode: 0,
+                failedGeocode: 0,
+                completedPrefectures: 0
+            };
+            updateStats();
+        }
+
+        // 制御機能
+        function pauseExtraction() {
+            extractionStatus.isPaused = true;
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('resumeBtn').disabled = false;
+            logMessage('⏸️ 抽出を一時停止しました');
+            updateStatus('一時停止中...', 'warning');
+        }
+
+        function resumeExtraction() {
+            extractionStatus.isPaused = false;
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('resumeBtn').disabled = true;
+            logMessage('▶️ 抽出を再開しました');
+        }
+
+        function stopExtraction() {
+            extractionStatus.isRunning = false;
+            extractionStatus.isPaused = false;
+            disableControls();
+            logMessage('⏹️ 抽出を停止しました');
+            updateStatus('停止されました', 'error');
+        }
+
+        // データ管理
+        function exportToJSON() {
+            if (extractedStores.length === 0) {
+                alert('エクスポートするデータがありません');
+                return;
+            }
+
+            const exportData = {
+                metadata: {
+                    dataVersion: {
+                        current: "2.1.0",
+                        compatible: ["2.0.0", "2.1.0"]
+                    },
+                    generatedAt: new Date().toISOString(),
+                    totalStores: extractedStores.length,
+                    coverage: `全国${extractionStatus.stats.completedPrefectures}都道府県`,
+                    generator: 'Cafe★Log Official Store Extractor',
+                    extractionStats: {
+                        totalExtracted: extractionStatus.stats.totalExtracted,
+                        successfulGeocode: extractionStatus.stats.successfulGeocode,
+                        failedGeocode: extractionStatus.stats.failedGeocode,
+                        geocodingSuccessRate: (extractionStatus.stats.successfulGeocode / extractionStatus.stats.totalExtracted * 100).toFixed(1) + '%'
+                    }
+                },
+                stores: extractedStores,
+                migrationSupport: {
+                    legacyIdMapping: {},
+                    deprecatedFields: []
+                }
+            };
+
+            // ファイルダウンロード
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cafe-log-official-stores-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            logMessage(`💾 ${extractedStores.length}店舗のデータをエクスポートしました`);
+        }
+
+        function clearAllData() {
+            if (extractionStatus.isRunning) {
+                alert('抽出中はデータをクリアできません');
+                return;
+            }
+
+            if (extractedStores.length > 0 && !confirm('全ての抽出データを削除しますか？')) {
+                return;
+            }
+
+            extractedStores = [];
+            resetStats();
+            updatePreview();
+            document.getElementById('exportBtn').disabled = true;
+            
+            // 都道府県ステータスリセット
+            PREFECTURES.forEach((_, index) => {
+                updatePrefectureStatus(index, 'pending');
+            });
+
+            updateProgress(0);
+            updateStatus('データクリア完了', 'success');
+            logMessage('🗑️ 全データをクリアしました');
+        }
+
+        // API接続テスト
+        async function testAPIConnection() {
+            logMessage('🔌 API接続テストを開始...');
+            updateStatus('API接続テスト中...', 'loading');
+            
+            const API_BASE = 'https://hn8madehag.execute-api.ap-northeast-1.amazonaws.com/prd-2019-08-21/storesearch';
+            
+            // 複数のアクセス方法をテスト
+            const testMethods = [
+                {
+                    name: '直接アクセス',
+                    url: API_BASE,
+                    options: {}
+                },
+                {
+                    name: 'CORS Anywhereプロキシ',
+                    url: 'https://cors-anywhere.herokuapp.com/' + API_BASE,
+                    options: {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    }
+                },
+                {
+                    name: 'AllOriginsプロキシ',
+                    url: `https://api.allorigins.win/get?url=${encodeURIComponent(API_BASE)}`,
+                    options: {}
+                }
+            ];
+            
+            for (const method of testMethods) {
+                try {
+                    logMessage(`  📡 テスト中: ${method.name}`);
+                    
+                    const response = await fetch(method.url, method.options);
+                    
+                    if (response.ok) {
+                        const text = await response.text();
+                        logMessage(`  ✅ ${method.name}: 成功 (${response.status})`);
+                        logMessage(`    📄 レスポンス長: ${text.length} chars`);
+                        
+                        // JSONとして解析を試行
+                        try {
+                            const data = JSON.parse(text);
+                            logMessage(`    📊 JSON解析: 成功`);
+                            console.log('API Response Sample:', data);
+                        } catch (e) {
+                            logMessage(`    📊 JSON解析: 失敗 (HTML responses?)`);
+                        }
+                        
+                        break; // 成功したら他のテストは不要
+                    } else {
+                        logMessage(`  ❌ ${method.name}: ${response.status} ${response.statusText}`);
+                    }
+                    
+                } catch (error) {
+                    logMessage(`  ❌ ${method.name}: ${error.message}`);
+                }
+            }
+            
+            updateStatus('API接続テスト完了', 'success');
+        }
+
+        // CORS問題の解決方法を表示
+        function showCORSWorkaround() {
+            const workaroundHTML = `
+                <div style="max-width: 600px; margin: 20px auto; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <h3 style="color: #e74c3c;">🛠️ CORS制限回避方法</h3>
+                    
+                    <h4>方法1: ブラウザ拡張機能を使用</h4>
+                    <p>
+                        Chrome/Edge: "CORS Unblock" 拡張機能をインストール<br>
+                        Firefox: "CORS Everywhere" アドオンを使用
+                    </p>
+                    
+                    <h4>方法2: 開発者ツールを使用</h4>
+                    <ol>
+                        <li>新しいタブで https://store.starbucks.co.jp/pref/tokyo/ を開く</li>
+                        <li>F12を押して開発者ツールを開く</li>
+                        <li>Console タブに以下を貼り付けて実行:</li>
+                    </ol>
+                    <textarea readonly style="width: 100%; height: 100px; font-family: monospace;">
+// 店舗データを抽出するコード
+const stores = [];
+document.querySelectorAll('.store-item, .shop-item').forEach(item => {
+    const name = item.querySelector('.name, .store-name')?.textContent?.trim();
+    const address = item.querySelector('.address, .store-address')?.textContent?.trim();
+    if (name && address) stores.push(name + '|' + address);
+});
+console.log(stores.join('\\n'));
+                    </textarea>
+                    
+                    <h4>方法3: 手動コピー&ペースト</h4>
+                    <p>
+                        1. 公式サイトから店舗情報をコピー<br>
+                        2. "✏️ 手動データ入力モード" ボタンを使用<br>
+                        3. データを整形して入力
+                    </p>
+                    
+                    <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 5px 10px;">閉じる</button>
+                </div>
+            `;
+            
+            // 既存の説明を削除
+            const existing = document.querySelector('.cors-workaround');
+            if (existing) existing.remove();
+            
+            // 新しい説明を追加
+            const div = document.createElement('div');
+            div.className = 'cors-workaround';
+            div.innerHTML = workaroundHTML;
+            document.body.appendChild(div);
+            
+            // スクロール
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 手動データ入力モード（メモ帳からの一括入力対応）
+        function manualDataInput() {
+            showBulkInputDialog();
+        }
+
+        // 一括入力ダイアログを表示
+        function showBulkInputDialog() {
+            // モーダルダイアログを作成
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 10000; 
+                display: flex; justify-content: center; align-items: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                    <h2 style="margin-top: 0; color: #00704A;">📝 全店舗データ一括入力</h2>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4>📋 入力形式（メモ帳用）</h4>
+                        <p style="margin: 10px 0;">
+                            <strong>1行につき1店舗：</strong><br>
+                            店舗名|住所<br><br>
+                            <strong>例：</strong><br>
+                            スターバックス 渋谷スカイ店|東京都渋谷区渋谷2-24-12<br>
+                            スターバックス 新宿南口店|東京都新宿区新宿3-38-1
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">
+                            店舗データを貼り付けてください：
+                        </label>
+                        <textarea id="bulkStoreData" 
+                            style="width: 100%; height: 300px; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-family: monospace; font-size: 14px;"
+                            placeholder="スターバックス 店舗名|都道府県 市区町村 詳細住所&#10;スターバックス 店舗名|都道府県 市区町村 詳細住所&#10;..."></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="margin-right: 10px;">
+                            <input type="checkbox" id="includeCoordinates" checked> 
+                            住所から座標を自動取得する（Google Maps API使用）
+                        </label>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button onclick="processBulkStoreData()" 
+                            style="background: #00704A; color: white; padding: 12px 30px; border: none; border-radius: 6px; font-size: 16px; margin-right: 10px; cursor: pointer;">
+                            ✅ データを処理
+                        </button>
+                        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" 
+                            style="background: #6c757d; color: white; padding: 12px 30px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
+                            ❌ キャンセル
+                        </button>
+                    </div>
+                    
+                    <div id="processingStatus" style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
+                        <div id="statusText">処理中...</div>
+                        <div style="width: 100%; height: 20px; background: #eee; border-radius: 10px; margin-top: 10px;">
+                            <div id="progressBar" style="height: 100%; background: #00704A; border-radius: 10px; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // 一括店舗データを処理
+        async function processBulkStoreData() {
+            const textarea = document.getElementById('bulkStoreData');
+            const includeCoords = document.getElementById('includeCoordinates').checked;
+            const statusDiv = document.getElementById('processingStatus');
+            const statusText = document.getElementById('statusText');
+            const progressBar = document.getElementById('progressBar');
+            
+            const rawData = textarea.value.trim();
+            if (!rawData) {
+                alert('データが入力されていません。');
+                return;
+            }
+            
+            statusDiv.style.display = 'block';
+            statusText.textContent = 'データを解析中...';
+            
+            // データを行ごとに分割して解析
+            const lines = rawData.split('\n').filter(line => line.trim());
+            const stores = [];
+            
+            let processed = 0;
+            
+            for (const line of lines) {
+                try {
+                    processed++;
+                    const progress = (processed / lines.length) * 100;
+                    progressBar.style.width = progress + '%';
+                    
+                    // 店舗名と住所を分離
+                    const parts = line.trim().split('|');
+                    if (parts.length < 2) {
+                        statusText.textContent = `行 ${processed}: 形式エラー - スキップ`;
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        continue;
+                    }
+                    
+                    const storeName = parts[0].trim();
+                    const address = parts[1].trim();
+                    
+                    statusText.textContent = `処理中 ${processed}/${lines.length}: ${storeName}`;
+                    
+                    // 都道府県を特定
+                    const prefecture = extractPrefectureFromAddress(address);
+                    const area = PREFECTURE_TO_AREA[prefecture] || '不明';
+                    
+                    const storeData = {
+                        storeInfo: {
+                            id: generateStoreId(storeName, prefecture),
+                            name: storeName,
+                            address: address,
+                            prefecture: prefecture,
+                            city: extractCity(address),
+                            area: area
+                        },
+                        businessInfo: {
+                            hours: null,
+                            phone: null,
+                            features: ['Wi-Fi', '電源', '禁煙']
+                        },
+                        extractionInfo: {
+                            source: 'manual',
+                            extractedAt: new Date().toISOString(),
+                            geocodingAccuracy: 'unknown'
+                        }
+                    };
+                    
+                    // 座標取得（オプション）
+                    if (includeCoords && geocoder) {
+                        try {
+                            statusText.textContent = `座標取得中 ${processed}/${lines.length}: ${storeName}`;
+                            const coordinates = await getCoordinatesFromAddress(address);
+                            if (coordinates) {
+                                storeData.storeInfo.coordinates = coordinates;
+                                storeData.extractionInfo.geocodingAccuracy = coordinates.accuracy;
+                            }
+                        } catch (e) {
+                            // 座標取得に失敗してもスキップせず続行
+                            console.warn(`座標取得失敗: ${storeName}`, e);
+                        }
+                        
+                        // API制限対策
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    
+                    stores.push(storeData);
+                    
+                } catch (error) {
+                    console.error(`行 ${processed} の処理に失敗:`, error);
+                }
+            }
+            
+            // extractedStoresに追加
+            extractedStores.push(...stores);
+            
+            // UI更新
+            updateStats();
+            updatePreview();
+            enableExport();
+            
+            statusText.textContent = `✅ 完了: ${stores.length}店舗を追加しました`;
+            progressBar.style.width = '100%';
+            
+            logMessage(`📝 手動入力完了: ${stores.length}店舗を追加`);
+            
+            // 3秒後にモーダルを閉じる
+            setTimeout(() => {
+                document.querySelector('div[style*="position: fixed"]').remove();
+            }, 3000);
+        }
+
+        // 住所から都道府県を抽出
+        function extractPrefectureFromAddress(address) {
+            for (const prefData of PREFECTURE_DATA) {
+                if (address.includes(prefData.name)) {
+                    return prefData.name;
+                }
+            }
+            return '不明';
+        }
+            
+            if (!manualData) return;
+            
+            const lines = manualData.trim().split('\n');
+            let addedCount = 0;
+            
+            for (const line of lines) {
+                const parts = line.split('|');
+                if (parts.length >= 2) {
+                    const store = {
+                        name: parts[0].trim(),
+                        address: parts[1].trim(),
+                        hours: parts[2] ? parts[2].trim() : null,
+                        phone: parts[3] ? parts[3].trim() : null
+                    };
+                    
+                    if (store.name && store.address) {
+                        // 座標取得を試行
+                        getCoordinatesFromAddress(store.address).then(coordinates => {
+                            if (coordinates) {
+                                const enrichedStore = {
+                                    storeInfo: {
+                                        id: generateStoreId(store.name, '手動入力'),
+                                        name: store.name,
+                                        address: store.address,
+                                        coordinates: coordinates,
+                                        prefecture: extractPrefecture(store.address),
+                                        city: extractCity(store.address),
+                                        area: 'manual'
+                                    },
+                                    businessInfo: {
+                                        hours: store.hours,
+                                        phone: store.phone,
+                                        features: ['Wi-Fi', '電源', '禁煙']
+                                    },
+                                    extractionInfo: {
+                                        source: 'manual',
+                                        extractedAt: new Date().toISOString(),
+                                        geocodingAccuracy: coordinates.accuracy || 'unknown'
+                                    }
+                                };
+                                
+                                extractedStores.push(enrichedStore);
+                                extractionStatus.stats.totalExtracted++;
+                                extractionStatus.stats.successfulGeocode++;
+                                updateStats();
+                                updatePreview();
+                                
+                                logMessage(`✅ 手動追加: ${store.name}`);
+                            } else {
+                                logMessage(`❌ 座標取得失敗: ${store.name}`);
+                            }
+                        });
+                        
+                        addedCount++;
+                    }
+                }
+            }
+            
+            logMessage(`📝 手動データ入力: ${addedCount}店舗を処理中...`);
+            enableExport();
+        }
+
+        // 住所から都道府県を抽出
+        function extractPrefecture(address) {
+            const prefectureMatch = address.match(/(北海道|[京大阪兵庫奈良和歌山鳥取島根岡山広島山口徳島香川愛媛高知福岡佐賀長崎熊本大分宮崎鹿児島沖縄][都府県]|[青岩宮秋山福茨栃群埼千神新富石福山長岐静愛三滋京大兵奈和鳥島岡広山徳香愛高福佐長熊大宮鹿沖][森手城田形島城木馬玉葉奈潟山川井梨野阜岡知重賀都阪庫良歌取根山島口島川媛知岡賀崎本分崎児縄][県])/);
+            return prefectureMatch ? prefectureMatch[1] : '不明';
+        }
+
+        // より正確なAPIレスポンス解析（実際のデータ構造に対応）
+        function parseAPIResponse(data) {
+            let stores = [];
+            
+            // スターバックス公式APIの実際のレスポンス構造を想定
+            if (data.hits && Array.isArray(data.hits)) {
+                stores = data.hits;
+            } else if (data.results && Array.isArray(data.results)) {
+                stores = data.results;
+            } else if (data.stores && Array.isArray(data.stores)) {
+                stores = data.stores;
+            } else if (data.data && Array.isArray(data.data)) {
+                stores = data.data;
+            } else if (Array.isArray(data)) {
+                stores = data;
+            } else {
+                logMessage('    ⚠️ 未知のAPIレスポンス構造');
+                logMessage(`    📊 レスポンスタイプ: ${typeof data}`);
+                logMessage(`    🔑 キー一覧: ${Object.keys(data).join(', ')}`);
+                console.log('Full API Response:', data);
+                
+                // レスポンス構造を詳細にログ出力
+                analyzeResponseStructure(data);
+                
+                // オブジェクトの値を再帰的に探索
+                stores = findStoreArrayInObject(data);
+            }
+            
+            return stores.map(store => ({
+                name: extractStoreName(store),
+                address: extractStoreAddress(store),
+                hours: extractStoreHours(store),
+                phone: extractStorePhone(store),
+                services: extractStoreServices(store)
+            })).filter(store => store.name && store.address);
+        }
+
+        // オブジェクト内の配列を再帰的に探索
+        function findStoreArrayInObject(obj, depth = 0) {
+            if (depth > 3) return []; // 無限再帰防止
+            
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const value = obj[key];
+                    
+                    if (Array.isArray(value) && value.length > 0) {
+                        // 配列の最初の要素が店舗データっぽいかチェック
+                        const firstItem = value[0];
+                        if (firstItem && typeof firstItem === 'object' && 
+                           (firstItem.name || firstItem.shop_name || firstItem.storeName)) {
+                            logMessage(`    📍 店舗配列発見: ${key} (${value.length}件)`);
+                            return value;
+                        }
+                    } else if (typeof value === 'object' && value !== null) {
+                        const result = findStoreArrayInObject(value, depth + 1);
+                        if (result.length > 0) return result;
+                    }
+                }
+            }
+            
+            return [];
+        }
+
+        // より柔軟な店舗情報抽出
+        function extractStoreName(store) {
+            // 複数の可能なフィールド名を試行
+            const nameFields = ['name', 'shop_name', 'storeName', 'title', 'store_name', 'shopName'];
+            for (const field of nameFields) {
+                if (store[field] && typeof store[field] === 'string') {
+                    return store[field].trim();
+                }
+            }
+            return '';
+        }
+
+        function extractStoreAddress(store) {
+            // 複数の可能なフィールド名を試行
+            const addressFields = ['address', 'full_address', 'addr', 'location', 'address_full', 'fullAddress'];
+            for (const field of addressFields) {
+                if (store[field] && typeof store[field] === 'string') {
+                    return store[field].trim();
+                }
+            }
+            
+            // 住所が分割されている場合の統合
+            const prefecture = store.prefecture || store.pref || '';
+            const city = store.city || store.municipality || '';
+            const street = store.street || store.address1 || '';
+            
+            if (prefecture && city) {
+                return `${prefecture}${city}${street}`.trim();
+            }
+            
+            return '';
+        }
+
+        // CORS対策の改良版
+        async function fetchStoresByQuery(apiBase, params) {
+            const queryParams = new URLSearchParams();
+            
+            // 基本パラメータ
+            queryParams.append('limit', '100');
+            queryParams.append('offset', '0');
+            
+            // 検索パラメータ追加
+            Object.keys(params).forEach(key => {
+                if (params[key]) {
+                    queryParams.append(key, params[key]);
+                }
+            });
+            
+            const targetUrl = `${apiBase}?${queryParams.toString()}`;
+            logMessage(`    📡 API呼び出し: ${targetUrl}`);
+            
+            // 複数のCORS回避方法を順次試行
+            const corsWorkarounds = [
+                // 直接アクセス（CORSが許可されている場合）
+                {
+                    url: targetUrl,
+                    options: {
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                },
+                // AllOrigins プロキシ
+                {
+                    url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
+                    options: {},
+                    extractJson: (data) => JSON.parse(data.contents)
+                },
+                // ThingProxy
+                {
+                    url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`,
+                    options: {}
+                }
+            ];
+            
+            for (const workaround of corsWorkarounds) {
+                try {
+                    const response = await fetch(workaround.url, workaround.options);
+                    
+                    if (response.ok) {
+                        let data = await response.json();
+                        
+                        // プロキシ経由の場合はデータを抽出
+                        if (workaround.extractJson && data.contents) {
+                            data = workaround.extractJson(data);
+                        }
+                        
+                        logMessage(`    ✅ API成功: ${workaround.url.split('/')[2]}`);
+                        return parseAPIResponse(data);
+                    }
+                } catch (error) {
+                    logMessage(`    ❌ API失敗: ${error.message}`);
+                }
+            }
+            
+            throw new Error('全てのCORS回避方法が失敗しました');
+        }
+
+        // 初期化実行
+        window.addEventListener('load', init);
+    </script>
+
+    <!-- Google Maps API -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcx2v4xS9VuQjHzhME5Fz3Uazig3l62RI&libraries=geometry&callback=initMap">
+    </script>
+</body>
+</html>

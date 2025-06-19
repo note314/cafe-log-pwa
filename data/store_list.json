@@ -1,0 +1,1293 @@
+{
+  "schema": {
+    "version": "2.0.0",
+    "description": "統合店舗データ形式 - PWA用最終版",
+    "lastUpdated": "2025-06-18T13:49:52.529Z"
+  },
+  "metadata": {
+    "dataVersion": {
+      "current": "2025.06.18",
+      "releaseDate": "2025-06-18T13:49:52.529Z",
+      "dataSource": "scraper-validated",
+      "totalStores": 15,
+      "coverage": {
+        "prefectures": 10,
+        "regions": 7,
+        "coordinateAccuracy": "high"
+      }
+    },
+    "compatibility": {
+      "minAppVersion": "1.0.0",
+      "maxAppVersion": "2.x.x",
+      "migrationRequired": false
+    },
+    "updateInfo": {
+      "updateFrequency": "manual",
+      "lastUpdateBy": "data-generator",
+      "nextScheduledUpdate": null
+    }
+  },
+  "regions": {
+    "hokkaido_tohoku": {
+      "id": "hokkaido_tohoku",
+      "name": "北海道・東北",
+      "displayOrder": 1,
+      "prefectures": [
+        "hokkaido",
+        "aomori",
+        "iwate",
+        "miyagi",
+        "akita",
+        "yamagata",
+        "fukushima"
+      ]
+    },
+    "kanto": {
+      "id": "kanto",
+      "name": "関東",
+      "displayOrder": 2,
+      "prefectures": [
+        "ibaraki",
+        "tochigi",
+        "gunma",
+        "saitama",
+        "chiba",
+        "tokyo",
+        "kanagawa"
+      ]
+    },
+    "chubu": {
+      "id": "chubu",
+      "name": "中部",
+      "displayOrder": 3,
+      "prefectures": [
+        "niigata",
+        "toyama",
+        "ishikawa",
+        "fukui",
+        "yamanashi",
+        "nagano"
+      ]
+    },
+    "tokai": {
+      "id": "tokai",
+      "name": "東海",
+      "displayOrder": 4,
+      "prefectures": [
+        "gifu",
+        "shizuoka",
+        "aichi",
+        "mie"
+      ]
+    },
+    "kinki": {
+      "id": "kinki",
+      "name": "近畿",
+      "displayOrder": 5,
+      "prefectures": [
+        "shiga",
+        "kyoto",
+        "osaka",
+        "hyogo",
+        "nara",
+        "wakayama"
+      ]
+    },
+    "chugoku_shikoku": {
+      "id": "chugoku_shikoku",
+      "name": "中国・四国",
+      "displayOrder": 6,
+      "prefectures": [
+        "tottori",
+        "shimane",
+        "okayama",
+        "hiroshima",
+        "yamaguchi",
+        "tokushima",
+        "kagawa",
+        "ehime",
+        "kochi"
+      ]
+    },
+    "kyushu_okinawa": {
+      "id": "kyushu_okinawa",
+      "name": "九州・沖縄",
+      "displayOrder": 7,
+      "prefectures": [
+        "fukuoka",
+        "saga",
+        "nagasaki",
+        "kumamoto",
+        "oita",
+        "miyazaki",
+        "kagoshima",
+        "okinawa"
+      ]
+    }
+  },
+  "prefectures": {
+    "hokkaido": {
+      "id": "hokkaido",
+      "name": "北海道",
+      "regionId": "hokkaido_tohoku",
+      "displayOrder": 1,
+      "bounds": {
+        "north": 43.063199,
+        "south": 43.063199,
+        "east": 141.3556302,
+        "west": 141.3556302
+      },
+      "center": {
+        "lat": 43.063199,
+        "lng": 141.3556302
+      },
+      "areas": {
+        "sapporo": {
+          "id": "sapporo",
+          "name": "札幌市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "miyagi": {
+      "id": "miyagi",
+      "name": "宮城県",
+      "regionId": "hokkaido_tohoku",
+      "displayOrder": 4,
+      "bounds": {
+        "north": 38.2619921,
+        "south": 38.2619921,
+        "east": 140.8815318,
+        "west": 140.8815318
+      },
+      "center": {
+        "lat": 38.2619921,
+        "lng": 140.8815318
+      },
+      "areas": {
+        "sendai": {
+          "id": "sendai",
+          "name": "仙台市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "saitama": {
+      "id": "saitama",
+      "name": "埼玉県",
+      "regionId": "kanto",
+      "displayOrder": 11,
+      "bounds": {
+        "north": 35.8951685,
+        "south": 35.8951685,
+        "east": 139.6365258,
+        "west": 139.6365258
+      },
+      "center": {
+        "lat": 35.8951685,
+        "lng": 139.6365258
+      },
+      "areas": {
+        "_____": {
+          "id": "_____",
+          "name": "さいたま市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "chiba": {
+      "id": "chiba",
+      "name": "千葉県",
+      "regionId": "kanto",
+      "displayOrder": 12,
+      "bounds": null,
+      "center": null,
+      "areas": {
+        "___": {
+          "id": "___",
+          "name": "千葉市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "tokyo": {
+      "id": "tokyo",
+      "name": "東京都",
+      "regionId": "kanto",
+      "displayOrder": 13,
+      "bounds": {
+        "north": 35.6909595,
+        "south": 35.6586051,
+        "east": 139.766384,
+        "west": 139.7009325
+      },
+      "center": {
+        "lat": 35.673914200000006,
+        "lng": 139.72286083333333
+      },
+      "areas": {
+        "shibuya": {
+          "id": "shibuya",
+          "name": "渋谷区",
+          "displayOrder": 1,
+          "storeCount": 1
+        },
+        "shinjuku": {
+          "id": "shinjuku",
+          "name": "新宿区",
+          "displayOrder": 2,
+          "storeCount": 1
+        },
+        "chuo": {
+          "id": "chuo",
+          "name": "中央区",
+          "displayOrder": 3,
+          "storeCount": 1
+        }
+      }
+    },
+    "kanagawa": {
+      "id": "kanagawa",
+      "name": "神奈川県",
+      "regionId": "kanto",
+      "displayOrder": 14,
+      "bounds": {
+        "north": 35.45495400000001,
+        "south": 35.45495400000001,
+        "east": 139.6313859,
+        "west": 139.6313859
+      },
+      "center": {
+        "lat": 35.45495400000001,
+        "lng": 139.6313859
+      },
+      "areas": {
+        "yokohama": {
+          "id": "yokohama",
+          "name": "横浜市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "aichi": {
+      "id": "aichi",
+      "name": "愛知県",
+      "regionId": "tokai",
+      "displayOrder": 23,
+      "bounds": {
+        "north": 35.1718752,
+        "south": 35.1718752,
+        "east": 136.8822239,
+        "west": 136.8822239
+      },
+      "center": {
+        "lat": 35.1718752,
+        "lng": 136.8822239
+      },
+      "areas": {
+        "nagoya": {
+          "id": "nagoya",
+          "name": "名古屋市",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "kyoto": {
+      "id": "kyoto",
+      "name": "京都府",
+      "regionId": "kinki",
+      "displayOrder": 26,
+      "bounds": {
+        "north": 35.0079444,
+        "south": 35.0079444,
+        "east": 135.7692342,
+        "west": 135.7692342
+      },
+      "center": {
+        "lat": 35.0079444,
+        "lng": 135.7692342
+      },
+      "areas": {
+        "____": {
+          "id": "____",
+          "name": "市中京区",
+          "displayOrder": 1,
+          "storeCount": 1
+        }
+      }
+    },
+    "osaka": {
+      "id": "osaka",
+      "name": "大阪府",
+      "regionId": "kinki",
+      "displayOrder": 27,
+      "bounds": {
+        "north": 34.7027213,
+        "south": 34.6467023,
+        "east": 135.5143947,
+        "west": 135.4946018
+      },
+      "center": {
+        "lat": 34.670343966666664,
+        "lng": 135.5036438
+      },
+      "areas": {
+        "osaka_city": {
+          "id": "osaka_city",
+          "name": "大阪市",
+          "displayOrder": 1,
+          "storeCount": 3
+        }
+      }
+    },
+    "fukuoka": {
+      "id": "fukuoka",
+      "name": "福岡県",
+      "regionId": "kyushu_okinawa",
+      "displayOrder": 40,
+      "bounds": {
+        "north": 33.59053,
+        "south": 33.589986,
+        "east": 130.4210556,
+        "west": 130.399501
+      },
+      "center": {
+        "lat": 33.590258000000006,
+        "lng": 130.4102783
+      },
+      "areas": {
+        "fukuoka_city": {
+          "id": "fukuoka_city",
+          "name": "福岡市",
+          "displayOrder": 1,
+          "storeCount": 2
+        }
+      }
+    }
+  },
+  "stores": [
+    {
+      "storeInfo": {
+        "id": "tokyo_001",
+        "storeNumber": "0001",
+        "name": "スターバックス コーヒー 渋谷スカイ店",
+        "nameKana": null,
+        "branch": "渋谷スカイ店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "tokyo",
+        "prefectureName": "東京都",
+        "area": "shibuya",
+        "areaName": "渋谷区",
+        "address": "東京都渋谷区渋谷2-24-1 東急百貨店東横店",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.6586051,
+          "lng": 139.7009325,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "03-3477-3602",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "tokyo_002",
+        "storeNumber": "0002",
+        "name": "スターバックス コーヒー 新宿南口店",
+        "nameKana": null,
+        "branch": "新宿南口店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "tokyo",
+        "prefectureName": "東京都",
+        "area": "shinjuku",
+        "areaName": "新宿区",
+        "address": "東京都新宿区新宿3-38-1 ルミネエスト新宿店",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.6909595,
+          "lng": 139.701266,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "03-5360-7190",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "tokyo_003",
+        "storeNumber": "0003",
+        "name": "スターバックス コーヒー 銀座松屋店",
+        "nameKana": null,
+        "branch": "銀座松屋店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "tokyo",
+        "prefectureName": "東京都",
+        "area": "chuo",
+        "areaName": "中央区",
+        "address": "東京都中央区銀座3-6-1 松屋銀座店",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.672178,
+          "lng": 139.766384,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "03-3567-1251",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "osaka_004",
+        "storeNumber": "0004",
+        "name": "スターバックス コーヒー 梅田蔦屋書店",
+        "nameKana": null,
+        "branch": "梅田蔦屋書店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "osaka",
+        "prefectureName": "大阪府",
+        "area": "osaka_city",
+        "areaName": "大阪市",
+        "address": "大阪府大阪市北区梅田3-1-3 ルクア イーレ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 34.7027213,
+          "lng": 135.4946018,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "06-6151-2516",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "osaka_005",
+        "storeNumber": "0005",
+        "name": "スターバックス コーヒー なんばパークス店",
+        "nameKana": null,
+        "branch": "なんばパークス店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "osaka",
+        "prefectureName": "大阪府",
+        "area": "osaka_city",
+        "areaName": "大阪市",
+        "address": "大阪府大阪市浪速区難波中2-10-70 なんばパークス",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 34.6616083,
+          "lng": 135.5019349,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "06-6644-7690",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "osaka_006",
+        "storeNumber": "0006",
+        "name": "スターバックス コーヒー 天王寺ミオ店",
+        "nameKana": null,
+        "branch": "天王寺ミオ店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "osaka",
+        "prefectureName": "大阪府",
+        "area": "osaka_city",
+        "areaName": "大阪市",
+        "address": "大阪府大阪市天王寺区悲田院町10-39 天王寺ミオ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 34.6467023,
+          "lng": 135.5143947,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "06-6770-1071",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "fukuoka_007",
+        "storeNumber": "0007",
+        "name": "スターバックス コーヒー 天神地下街店",
+        "nameKana": null,
+        "branch": "天神地下街店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "fukuoka",
+        "prefectureName": "福岡県",
+        "area": "fukuoka_city",
+        "areaName": "福岡市",
+        "address": "福岡県福岡市中央区天神2丁目地下3号 天神地下街",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 33.589986,
+          "lng": 130.399501,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "092-732-7101",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "fukuoka_008",
+        "storeNumber": "0008",
+        "name": "スターバックス コーヒー JR博多シティ店",
+        "nameKana": null,
+        "branch": "JR博多シティ店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "fukuoka",
+        "prefectureName": "福岡県",
+        "area": "fukuoka_city",
+        "areaName": "福岡市",
+        "address": "福岡県福岡市博多区博多駅中央街1-1 JR博多シティ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 33.59053,
+          "lng": 130.4210556,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "092-431-8670",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "aichi_009",
+        "storeNumber": "0009",
+        "name": "スターバックス コーヒー 名古屋駅前店",
+        "nameKana": null,
+        "branch": "名古屋駅前店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "aichi",
+        "prefectureName": "愛知県",
+        "area": "nagoya",
+        "areaName": "名古屋市",
+        "address": "愛知県名古屋市中村区名駅1-1-4 JRセントラルタワーズ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.1718752,
+          "lng": 136.8822239,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "052-566-0789",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "hokkaido_010",
+        "storeNumber": "0010",
+        "name": "スターバックス コーヒー さっぽろ創世スクエア店",
+        "nameKana": null,
+        "branch": "さっぽろ創世スクエア店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "hokkaido",
+        "prefectureName": "北海道",
+        "area": "sapporo",
+        "areaName": "札幌市",
+        "address": "北海道札幌市中央区北1条西1丁目6番地 さっぽろ創世スクエア",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 43.063199,
+          "lng": 141.3556302,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "011-200-5623",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "kanagawa_011",
+        "storeNumber": "0011",
+        "name": "スターバックス コーヒー 横浜ランドマークタワー店",
+        "nameKana": null,
+        "branch": "横浜ランドマークタワー店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "kanagawa",
+        "prefectureName": "神奈川県",
+        "area": "yokohama",
+        "areaName": "横浜市",
+        "address": "神奈川県横浜市西区みなとみらい2-2-1 ランドマークタワー",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.45495400000001,
+          "lng": 139.6313859,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "045-222-5600",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "chiba_012",
+        "storeNumber": "0012",
+        "name": "スターバックス コーヒー 千葉そごう店",
+        "nameKana": null,
+        "branch": "千葉そごう店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "chiba",
+        "prefectureName": "千葉県",
+        "area": "___",
+        "areaName": "千葉市",
+        "address": "千葉県千葉市中央区新町1000番地 そごう千葉店",
+        "postalCode": null,
+        "coordinates": null,
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "043-245-8200",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "saitama_013",
+        "storeNumber": "0013",
+        "name": "スターバックス コーヒー さいたま新都心店",
+        "nameKana": null,
+        "branch": "さいたま新都心店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "saitama",
+        "prefectureName": "埼玉県",
+        "area": "_____",
+        "areaName": "さいたま市",
+        "address": "埼玉県さいたま市大宮区吉敷町4-267-2 コクーンシティ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.8951685,
+          "lng": 139.6365258,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "048-601-5923",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "miyagi_014",
+        "storeNumber": "0014",
+        "name": "スターバックス コーヒー 仙台パルコ店",
+        "nameKana": null,
+        "branch": "仙台パルコ店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "miyagi",
+        "prefectureName": "宮城県",
+        "area": "sendai",
+        "areaName": "仙台市",
+        "address": "宮城県仙台市青葉区中央1-2-3 仙台パルコ",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 38.2619921,
+          "lng": 140.8815318,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "022-214-2055",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    },
+    {
+      "storeInfo": {
+        "id": "kyoto_015",
+        "storeNumber": "0015",
+        "name": "スターバックス コーヒー 京都河原町店",
+        "nameKana": null,
+        "branch": "京都河原町店",
+        "nameEn": null
+      },
+      "location": {
+        "prefecture": "kyoto",
+        "prefectureName": "京都府",
+        "area": "____",
+        "areaName": "市中京区",
+        "address": "京都府京都市中京区河原町通三条下ル大黒町58番地",
+        "postalCode": null,
+        "coordinates": {
+          "lat": 35.0079444,
+          "lng": 135.7692342,
+          "accuracy": "api_verified",
+          "source": "google_maps",
+          "lastVerified": "2025-06-18T13:49:52.529Z"
+        },
+        "accessibility": {
+          "nearestStation": null,
+          "walkingMinutes": null,
+          "parkingAvailable": null,
+          "barrierFree": null
+        }
+      },
+      "businessInfo": {
+        "phone": "075-213-2533",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": null,
+        "storeType": "regular",
+        "services": [
+          "wifi",
+          "mobile-order"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "1.0.0",
+        "lastUpdated": "2025-06-18T13:49:52.529Z",
+        "verifiedBy": "data-generator",
+        "changeHistory": [
+          {
+            "date": "2025-06-18T13:49:52.529Z",
+            "type": "pwa-generation",
+            "description": "PWA用データ生成"
+          }
+        ]
+      }
+    }
+  ],
+  "migrationSupport": {
+    "legacyIdMapping": {},
+    "userDataPreservation": {
+      "visitedStores": "preserve_by_id",
+      "favoriteStores": "preserve_by_id",
+      "personalData": "preserve_all"
+    }
+  }
+}

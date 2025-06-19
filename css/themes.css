@@ -1,0 +1,359 @@
+/* Theme System */
+
+/* Light Theme (Default) */
+[data-theme="light"] {
+  --primary-color: #00704A;
+  --primary-light: #4CAF50;
+  --primary-dark: #003d26;
+  --accent-color: #D4145A;
+  --accent-light: #ff6b9d;
+  --accent-dark: #8b0a3d;
+  
+  --background-color: #ffffff;
+  --surface-color: #f8f9fa;
+  --surface-elevated: #ffffff;
+  --border-color: #e9ecef;
+  --divider-color: #dee2e6;
+  
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-muted: #adb5bd;
+  --text-on-primary: #ffffff;
+  --text-on-accent: #ffffff;
+  
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+  --info-color: #17a2b8;
+  
+  --focus-color: #007bff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-strong: rgba(0, 0, 0, 0.2);
+  
+  /* ヘッダー専用色設定（デフォルト） */
+  --header-background: #ffffff;
+  --header-text: #212529;
+  --hamburger-color: #212529;
+  --hamburger-color-hover: #212529;
+  --hamburger-background: transparent;
+  --hamburger-hover: var(--surface-color);
+  
+  --map-visited: #00704A;
+  --map-unvisited: #6c757d;
+  --progress-bg: #e9ecef;
+  --badge-gold: #ffd700;
+  --badge-silver: #c0c0c0;
+  --badge-bronze: #cd7f32;
+  --badge-complete: #ff6b35;
+  
+  /* Achievement colors */
+  --achievement-starter: #4caf50;
+  --achievement-explorer: #2196f3;
+  --achievement-adventurer: #ff9800;
+  --achievement-master: #9c27b0;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary-color: #4CAF50;
+  --primary-light: #81c784;
+  --primary-dark: #388e3c;
+  --accent-color: #ff6b9d;
+  --accent-light: #ffb3d1;
+  --accent-dark: #d4145a;
+  
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --surface-elevated: #2d2d2d;
+  --border-color: #333333;
+  --divider-color: #404040;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #737373;
+  --text-on-primary: #000000;
+  --text-on-accent: #ffffff;
+  
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --error-color: #f44336;
+  --info-color: #2196f3;
+  
+  --focus-color: #90caf9;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
+  
+  /* ヘッダー専用色設定（ダーク） */
+  --header-background: #2d2d2d;
+  --header-text: #ffffff;
+  --hamburger-color: #ffffff;
+  --hamburger-color-hover: #ffffff;
+  --hamburger-background: transparent;
+  --hamburger-hover: #404040;
+  
+  --map-visited: #4CAF50;
+  --map-unvisited: #737373;
+  --progress-bg: #333333;
+  --badge-gold: #ffd700;
+  --badge-silver: #c0c0c0;
+  --badge-bronze: #cd7f32;
+  --badge-complete: #ff6b35;
+  
+  /* Achievement colors */
+  --achievement-starter: #4caf50;
+  --achievement-explorer: #2196f3;
+  --achievement-adventurer: #ff9800;
+  --achievement-master: #9c27b0;
+}
+
+/* Green Theme */
+[data-theme="starbucks"] {
+  --primary-color: #00704A;
+  --primary-light: #2d8f5f;
+  --primary-dark: #003d26;
+  --accent-color: #D4145A;
+  --accent-light: #e63973;
+  --accent-dark: #a50f47;
+  
+  --background-color: #f4f7f5;
+  --surface-color: #ffffff;
+  --surface-elevated: #ffffff;
+  --border-color: #c8d6cc;
+  --divider-color: #b8c7bc;
+  
+  /* ヘッダー専用色設定 */
+  --header-background: #00704A;
+  --header-text: #ffffff;
+  --hamburger-color: #ffffff;
+  --hamburger-color-hover: #00704A;
+  --hamburger-background: #2d8f5f;
+  --hamburger-hover: #ffffff;
+  
+  --text-primary: #1e3a28;
+  --text-secondary: #4a6b52;
+  --text-muted: #7a9682;
+  --text-on-primary: #ffffff;
+  --text-on-accent: #ffffff;
+  
+  --success-color: #00704A;
+  --warning-color: #d4a574;
+  --error-color: #c44536;
+  --info-color: #5b9bd5;
+  
+  --focus-color: #2d8f5f;
+  --shadow-color: rgba(0, 112, 74, 0.1);
+  --shadow-strong: rgba(0, 112, 74, 0.2);
+  
+  --map-visited: #D4145A;
+  --map-unvisited: #7a9682;
+  --progress-bg: #e8f1ea;
+  --badge-gold: #d4a574;
+  --badge-silver: #c8d6cc;
+  --badge-bronze: #a67c5a;
+  --badge-complete: #d4145a;
+  
+  /* Achievement colors */
+  --achievement-starter: #00704a;
+  --achievement-explorer: #2d8f5f;
+  --achievement-adventurer: #d4a574;
+  --achievement-master: #d4145a;
+}
+
+/* Theme transitions */
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* Common theme-aware styles */
+.surface {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
+
+.surface-elevated {
+  background-color: var(--surface-elevated);
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.divider {
+  border-bottom: 1px solid var(--divider-color);
+}
+
+/* Button variants */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-color);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-accent {
+  background-color: var(--accent-color);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-bronze {
+  background-color: var(--badge-bronze);
+  color: white;
+}
+
+.badge-silver {
+  background-color: var(--badge-silver);
+  color: black;
+}
+
+.badge-gold {
+  background-color: var(--badge-gold);
+  color: black;
+}
+
+.badge-complete {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+}
+
+/* Progress bar */
+.progress {
+  width: 100%;
+  height: 8px;
+  background-color: var(--progress-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 65%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Card styles */
+.card {
+  background-color: var(--surface-elevated);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--shadow-color);
+}
+
+/* Input styles */
+.input {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 112, 74, 0.1);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}

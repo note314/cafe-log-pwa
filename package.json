@@ -1,0 +1,19 @@
+{
+  "name": "cafe-log-pwa",
+  "version": "1.0.0",
+  "description": "Cafe★Log - カフェ店舗訪問記録PWA",
+  "main": "js/app.js",
+  "scripts": {
+    "build": "esbuild --bundle --minify --outfile=dist/bundle.js js/bundle-entry.js --format=iife",
+    "build-dev": "esbuild --bundle --outfile=dist/bundle.js js/bundle-entry.js --format=iife",
+    "build-watch": "esbuild --bundle --watch --outfile=dist/bundle.js js/bundle-entry.js --format=iife",
+    "serve": "python3 -m http.server 8000",
+    "serve-bundled": "echo 'Access bundled version at: http://localhost:8000/index-bundled.html' && python3 -m http.server 8000"
+  },
+  "keywords": ["PWA", "cafe", "starbucks", "map", "location"],
+  "author": "Cafe★Log Team",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.19.0"
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- 緑背景 -->
+  <circle cx="96" cy="96" r="96" fill="#00704A"/>
+  
+  <!-- 白いカップ (丸み強化・拡大版) -->
+  <g transform="translate(96,99)">
+    <!-- カップ本体 -->
+    <path d="M-42 -13 Q-42 -19 -35 -19 L35 -19 Q42 -19 42 -13 L42 26 Q42 42 29 42 L-29 42 Q-42 42 -42 26 Z" fill="white"/>
+    <!-- カップハンドル (拡大) -->
+    <path d="M42 -6 Q56 -6 56 3 Q56 13 42 13" fill="none" stroke="white" stroke-width="7"/>
+    <!-- カップ上部リム -->
+    <ellipse cx="0" cy="-19" rx="42" ry="6" fill="white"/>
+    <!-- 蒸気 -->
+    <path d="M-19 -29 Q-19 -42 -16 -42 Q-13 -42 -13 -29" fill="none" stroke="white" stroke-width="4" opacity="0.8"/>
+    <path d="M0 -29 Q0 -45 3 -45 Q6 -45 6 -29" fill="none" stroke="white" stroke-width="4" opacity="0.8"/>
+    <path d="M19 -29 Q19 -42 22 -42 Q26 -42 26 -29" fill="none" stroke="white" stroke-width="4" opacity="0.8"/>
+  </g>
+  
+  <!-- 黄色い星 (さらに拡大版) -->
+  <g transform="translate(144,48)">
+    <path d="M0,-26 L7,-7 L26,0 L7,7 L0,26 L-7,7 L-26,0 L-7,-7 Z" fill="#FFD700"/>
+  </g>
+</svg>

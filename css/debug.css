@@ -1,0 +1,66 @@
+/* Debug Styles for Hamburger Menu */
+
+.hamburger-btn {
+  /* Ensure button is visible and clickable */
+  background-color: var(--surface-color) !important;
+  border: 2px solid var(--primary-color) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+.hamburger-btn:hover {
+  background-color: var(--primary-color) !important;
+}
+
+.hamburger-btn:hover span {
+  background-color: white !important;
+}
+
+/* Ensure spans are visible */
+.hamburger-btn span {
+  background-color: var(--primary-color) !important;
+  display: block !important;
+}
+
+/* Debug border for hamburger menu */
+.hamburger-menu {
+  border: 2px solid red !important;
+}
+
+.hamburger-menu.active {
+  border: 2px solid green !important;
+}
+
+/* Ensure menu content is visible */
+.menu-content {
+  background-color: var(--surface-elevated) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Make menu items more visible */
+.menu-list a {
+  background-color: var(--surface-color) !important;
+  border: 1px solid var(--border-color) !important;
+  margin: 2px 0 !important;
+  border-radius: 4px !important;
+}
+
+.menu-list a:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Debug info overlay */
+.debug-info {
+  position: fixed;
+  top: 70px;
+  right: 10px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 9999;
+  max-width: 200px;
+}

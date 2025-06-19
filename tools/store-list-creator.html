@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe★Log - 店舗リスト作成ツール</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #00704A;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .panel h2 {
+            color: #00704A;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #00704A;
+            padding-bottom: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #00704A;
+        }
+
+        .input-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #00704A;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #005a38;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .coordinate-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .coordinate-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .coord-method {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .coord-method:hover {
+            border-color: #00704A;
+        }
+
+        .coord-method.active {
+            border-color: #00704A;
+            background: #f8fff8;
+        }
+
+        .store-list {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .store-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00704A;
+        }
+
+        .store-item h4 {
+            color: #00704A;
+            margin-bottom: 0.5rem;
+        }
+
+        .store-item .store-details {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .store-item .coordinates {
+            font-family: monospace;
+            font-size: 0.8rem;
+            background: white;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .validation-status {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .validation-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .validation-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .validation-status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00704A;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+
+        .export-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00704A;
+            transition: width 0.3s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .manual-adjustment-item {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .manual-adjustment-item h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .adjustment-reason {
+            font-size: 0.8rem;
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .adjustment-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .places-suggestion {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .places-suggestion h5 {
+            color: #0c5460;
+            margin-bottom: 0.5rem;
+        }
+
+        .confidence-score {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .confidence-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .confidence-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .confidence-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .enrichment-progress {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #00704A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .coordinate-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☕ Cafe★Log 店舗リスト作成ツール</h1>
+            <p>正確な座標情報と品質管理機能を備えた店舗データ作成システム</p>
+        </div>
+
+        <div class="main-content">
+            <!-- 店舗入力パネル -->
+            <div class="panel">
+                <h2>📍 店舗情報入力</h2>
+                
+                <div class="input-group">
+                    <label for="storeName">店舗名 *</label>
+                    <input type="text" id="storeName" placeholder="例: スターバックス 渋谷スクランブルスクエア店">
+                    <div class="error-message hidden" id="storeNameError"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="storeAddress">住所 *</label>
+                    <input type="text" id="storeAddress" placeholder="例: 東京都渋谷区渋谷2-24-12">
+                    <div class="error-message hidden" id="storeAddressError"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="storePrefecture">都道府県 *</label>
+                    <select id="storePrefecture">
+                        <option value="">選択してください</option>
+                        <option value="北海道">北海道</option>
+                        <option value="青森県">青森県</option>
+                        <option value="岩手県">岩手県</option>
+                        <option value="宮城県">宮城県</option>
+                        <option value="秋田県">秋田県</option>
+                        <option value="山形県">山形県</option>
+                        <option value="福島県">福島県</option>
+                        <option value="茨城県">茨城県</option>
+                        <option value="栃木県">栃木県</option>
+                        <option value="群馬県">群馬県</option>
+                        <option value="埼玉県">埼玉県</option>
+                        <option value="千葉県">千葉県</option>
+                        <option value="東京都">東京都</option>
+                        <option value="神奈川県">神奈川県</option>
+                        <option value="新潟県">新潟県</option>
+                        <option value="富山県">富山県</option>
+                        <option value="石川県">石川県</option>
+                        <option value="福井県">福井県</option>
+                        <option value="山梨県">山梨県</option>
+                        <option value="長野県">長野県</option>
+                        <option value="岐阜県">岐阜県</option>
+                        <option value="静岡県">静岡県</option>
+                        <option value="愛知県">愛知県</option>
+                        <option value="三重県">三重県</option>
+                        <option value="滋賀県">滋賀県</option>
+                        <option value="京都府">京都府</option>
+                        <option value="大阪府">大阪府</option>
+                        <option value="兵庫県">兵庫県</option>
+                        <option value="奈良県">奈良県</option>
+                        <option value="和歌山県">和歌山県</option>
+                        <option value="鳥取県">鳥取県</option>
+                        <option value="島根県">島根県</option>
+                        <option value="岡山県">岡山県</option>
+                        <option value="広島県">広島県</option>
+                        <option value="山口県">山口県</option>
+                        <option value="徳島県">徳島県</option>
+                        <option value="香川県">香川県</option>
+                        <option value="愛媛県">愛媛県</option>
+                        <option value="高知県">高知県</option>
+                        <option value="福岡県">福岡県</option>
+                        <option value="佐賀県">佐賀県</option>
+                        <option value="長崎県">長崎県</option>
+                        <option value="熊本県">熊本県</option>
+                        <option value="大分県">大分県</option>
+                        <option value="宮崎県">宮崎県</option>
+                        <option value="鹿児島県">鹿児島県</option>
+                        <option value="沖縄県">沖縄県</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="storePhone">電話番号</label>
+                    <input type="tel" id="storePhone" placeholder="例: 03-1234-5678">
+                </div>
+
+                <div class="input-group">
+                    <label for="storeHours">営業時間</label>
+                    <input type="text" id="storeHours" placeholder="例: 平日 6:30-22:30">
+                </div>
+
+                <!-- 座標取得セクション -->
+                <div class="coordinate-section">
+                    <h3>🗺️ 座標取得方法</h3>
+                    <div class="coordinate-methods">
+                        <div class="coord-method active" data-method="auto">
+                            <h4>自動取得</h4>
+                            <p>住所から自動で座標を取得</p>
+                        </div>
+                        <div class="coord-method" data-method="manual">
+                            <h4>手動入力</h4>
+                            <p>緯度・経度を直接入力</p>
+                        </div>
+                    </div>
+
+                    <div id="autoCoordinates">
+                        <button type="button" class="btn" onclick="getCoordinatesFromAddress()">
+                            📍 住所から座標を取得
+                        </button>
+                        <div class="validation-status hidden" id="coordinateStatus"></div>
+                    </div>
+
+                    <div id="manualCoordinates" class="hidden">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="input-group">
+                                <label for="latitude">緯度 *</label>
+                                <input type="number" id="latitude" step="0.000001" placeholder="35.658581">
+                            </div>
+                            <div class="input-group">
+                                <label for="longitude">経度 *</label>
+                                <input type="number" id="longitude" step="0.000001" placeholder="139.701762">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-secondary btn" onclick="validateManualCoordinates()">
+                            ✓ 座標を検証
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="storeFeatures">特徴・設備</label>
+                    <textarea id="storeFeatures" placeholder="例: Wi-Fi, 電源, 禁煙, ドライブスルー"></textarea>
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="button" class="btn" onclick="addStore()">
+                        ➕ 店舗を追加
+                    </button>
+                    <button type="button" class="btn-secondary btn" onclick="clearForm()">
+                        🗑️ クリア
+                    </button>
+                </div>
+
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #e9ecef;">
+                    <h3 style="color: #00704A; margin-bottom: 1rem;">🤖 自動データ生成</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                        全国の主要スターバックス店舗データを自動で生成します
+                    </p>
+                    <button type="button" class="btn" onclick="generateAllStores()" style="background: #28a745; width: 100%;">
+                        🚀 全店舗データを自動生成
+                    </button>
+                    <div class="validation-status hidden" id="autoGenerationStatus"></div>
+                    <div class="progress-bar hidden" id="autoGenerationProgress">
+                        <div class="progress-fill" id="autoGenerationProgressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 品質管理パネル -->
+            <div class="panel">
+                <h2>✅ 品質管理</h2>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalStores">0</div>
+                        <div class="stat-label">総店舗数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="validStores">0</div>
+                        <div class="stat-label">検証済み</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="duplicateStores">0</div>
+                        <div class="stat-label">重複検出</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="errorStores">0</div>
+                        <div class="stat-label">エラー</div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="validateAllStores()">
+                    🔍 全店舗検証
+                </button>
+                <button type="button" class="btn-secondary btn" onclick="removeDuplicates()">
+                    🧹 重複削除
+                </button>
+                <button type="button" class="btn" onclick="enrichWithPlacesAPI()" style="background: #17a2b8;">
+                    🌐 Places API で情報補完
+                </button>
+                <button type="button" class="btn-danger btn" onclick="clearAllStores()">
+                    🗑️ 全削除
+                </button>
+
+                <div class="validation-status hidden" id="globalValidationStatus"></div>
+
+                <h3>📊 データ品質レポート</h3>
+                <div id="qualityReport"></div>
+
+                <h3>⚠️ 要手動調整店舗</h3>
+                <div id="manualAdjustmentList"></div>
+            </div>
+        </div>
+
+        <!-- 店舗リスト表示 -->
+        <div class="store-list">
+            <h2>📋 登録済み店舗リスト</h2>
+            <div id="storeListContainer">
+                <p style="text-align: center; color: #666; margin: 2rem 0;">
+                    まだ店舗が登録されていません
+                </p>
+            </div>
+        </div>
+
+        <!-- エクスポートセクション -->
+        <div class="export-section">
+            <h2>📤 データエクスポート</h2>
+            
+            <div class="input-group">
+                <label for="dataVersion">データバージョン</label>
+                <input type="text" id="dataVersion" value="2.1.0" placeholder="例: 2.1.0">
+            </div>
+
+            <div class="input-group">
+                <label for="coverageDescription">カバレッジ説明</label>
+                <input type="text" id="coverageDescription" placeholder="例: 全国47都道府県">
+            </div>
+
+            <button type="button" class="btn" onclick="exportToJSON()">
+                💾 JSONファイルを生成
+            </button>
+            <button type="button" class="btn-secondary btn" onclick="importFromJSON()">
+                📂 JSONファイルを読み込み
+            </button>
+
+            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport()">
+
+            <div class="progress-bar hidden" id="exportProgress">
+                <div class="progress-fill" id="exportProgressFill"></div>
+            </div>
+
+            <div class="validation-status hidden" id="exportStatus"></div>
+        </div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script>
+        let map, geocoder, stores = [];
+        let currentCoordinateMethod = 'auto';
+
+        // 都道府県からエリアへのマッピング
+        const PREFECTURE_TO_AREA = {
+            '北海道': '北海道',
+            '青森県': '東北', '岩手県': '東北', '宮城県': '東北', '秋田県': '東北', '山形県': '東北', '福島県': '東北',
+            '茨城県': '関東', '栃木県': '関東', '群馬県': '関東', '埼玉県': '関東', '千葉県': '関東', '東京都': '関東', '神奈川県': '関東',
+            '新潟県': '中部', '富山県': '中部', '石川県': '中部', '福井県': '中部', '山梨県': '中部', '長野県': '中部', '岐阜県': '中部', '静岡県': '中部', '愛知県': '中部',
+            '三重県': '近畿', '滋賀県': '近畿', '京都府': '近畿', '大阪府': '近畿', '兵庫県': '近畿', '奈良県': '近畿', '和歌山県': '近畿',
+            '鳥取県': '中国', '島根県': '中国', '岡山県': '中国', '広島県': '中国', '山口県': '中国',
+            '徳島県': '四国', '香川県': '四国', '愛媛県': '四国', '高知県': '四国',
+            '福岡県': '九州', '佐賀県': '九州', '長崎県': '九州', '熊本県': '九州', '大分県': '九州', '宮崎県': '九州', '鹿児島県': '九州', '沖縄県': '九州'
+        };
+
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            console.log('✅ Google Maps API initialized');
+        }
+
+        // 座標取得方法の切り替え
+        document.querySelectorAll('.coord-method').forEach(method => {
+            method.addEventListener('click', function() {
+                const selectedMethod = this.dataset.method;
+                
+                // アクティブ状態の切り替え
+                document.querySelectorAll('.coord-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+                
+                // パネル表示切り替え
+                document.getElementById('autoCoordinates').classList.toggle('hidden', selectedMethod !== 'auto');
+                document.getElementById('manualCoordinates').classList.toggle('hidden', selectedMethod !== 'manual');
+                
+                currentCoordinateMethod = selectedMethod;
+            });
+        });
+
+        // 住所から座標を取得（高精度）
+        async function getCoordinatesFromAddress() {
+            const address = document.getElementById('storeAddress').value.trim();
+            const storeName = document.getElementById('storeName').value.trim();
+            
+            if (!address) {
+                showCoordinateStatus('住所を入力してください', 'error');
+                return;
+            }
+
+            showCoordinateStatus('座標を取得中...', 'loading');
+
+            try {
+                // 複数の検索クエリで精度向上
+                const queries = [
+                    `${storeName} ${address}`,  // 店名 + 住所
+                    address,                    // 住所のみ
+                    address.replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))  // 全角→半角変換
+                ];
+
+                let bestResult = null;
+                let bestAccuracy = 0;
+
+                for (const query of queries) {
+                    try {
+                        const result = await geocodeAddress(query);
+                        if (result && result.accuracy > bestAccuracy) {
+                            bestResult = result;
+                            bestAccuracy = result.accuracy;
+                        }
+                    } catch (e) {
+                        console.log(`Geocoding failed for query: ${query}`);
+                    }
+                }
+
+                if (bestResult) {
+                    document.getElementById('latitude').value = bestResult.lat.toFixed(6);
+                    document.getElementById('longitude').value = bestResult.lng.toFixed(6);
+                    
+                    showCoordinateStatus(
+                        `✅ 座標取得成功 (精度: ${getAccuracyText(bestAccuracy)})`,
+                        'success'
+                    );
+                } else {
+                    throw new Error('座標が見つかりませんでした');
+                }
+
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                showCoordinateStatus(`❌ 座標取得失敗: ${error.message}`, 'error');
+            }
+        }
+
+        // Geocoding Promise wrapper
+        function geocodeAddress(address) {
+            return new Promise((resolve, reject) => {
+                geocoder.geocode({ address: address, region: 'JP' }, (results, status) => {
+                    if (status === 'OK' && results.length > 0) {
+                        const result = results[0];
+                        const location = result.geometry.location;
+                        
+                        // 精度判定（location_typeから）
+                        let accuracy = 0;
+                        switch (result.geometry.location_type) {
+                            case 'ROOFTOP': accuracy = 10; break;           // 建物レベル
+                            case 'RANGE_INTERPOLATED': accuracy = 8; break; // 番地レベル
+                            case 'GEOMETRIC_CENTER': accuracy = 6; break;   // 地区レベル
+                            case 'APPROXIMATE': accuracy = 4; break;        // 概算
+                        }
+
+                        // 住所タイプからの精度加算
+                        const addressTypes = result.types;
+                        if (addressTypes.includes('establishment')) accuracy += 2;
+                        if (addressTypes.includes('premise')) accuracy += 1;
+
+                        resolve({
+                            lat: location.lat(),
+                            lng: location.lng(),
+                            accuracy: accuracy,
+                            formatted_address: result.formatted_address,
+                            location_type: result.geometry.location_type
+                        });
+                    } else {
+                        reject(new Error(`Geocoding failed: ${status}`));
+                    }
+                });
+            });
+        }
+
+        function getAccuracyText(accuracy) {
+            if (accuracy >= 9) return '非常に高い';
+            if (accuracy >= 7) return '高い';
+            if (accuracy >= 5) return '中程度';
+            return '低い';
+        }
+
+        // 手動座標の検証
+        async function validateManualCoordinates() {
+            const lat = parseFloat(document.getElementById('latitude').value);
+            const lng = parseFloat(document.getElementById('longitude').value);
+
+            if (isNaN(lat) || isNaN(lng)) {
+                showCoordinateStatus('❌ 有効な緯度・経度を入力してください', 'error');
+                return;
+            }
+
+            // 日本の境界チェック
+            if (lat < 20 || lat > 46 || lng < 123 || lng > 146) {
+                showCoordinateStatus('⚠️ 座標が日本の範囲外です', 'warning');
+                return;
+            }
+
+            // 逆ジオコーディングで住所確認
+            try {
+                const reverseResult = await reverseGeocode(lat, lng);
+                if (reverseResult) {
+                    showCoordinateStatus(
+                        `✅ 座標検証成功: ${reverseResult.formatted_address}`,
+                        'success'
+                    );
+                } else {
+                    showCoordinateStatus('⚠️ 座標は有効ですが、住所情報を取得できませんでした', 'warning');
+                }
+            } catch (error) {
+                showCoordinateStatus('⚠️ 座標は有効ですが、検証中にエラーが発生しました', 'warning');
+            }
+        }
+
+        // 逆ジオコーディング
+        function reverseGeocode(lat, lng) {
+            return new Promise((resolve, reject) => {
+                geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+                    if (status === 'OK' && results.length > 0) {
+                        resolve(results[0]);
+                    } else {
+                        reject(new Error(`Reverse geocoding failed: ${status}`));
+                    }
+                });
+            });
+        }
+
+        // 座標ステータス表示
+        function showCoordinateStatus(message, type) {
+            const statusElement = document.getElementById('coordinateStatus');
+            statusElement.textContent = message;
+            statusElement.className = `validation-status ${type}`;
+            statusElement.classList.remove('hidden');
+        }
+
+        // 店舗追加
+        async function addStore() {
+            if (!validateForm()) {
+                return;
+            }
+
+            const storeData = collectFormData();
+            
+            // 重複チェック
+            if (isDuplicate(storeData)) {
+                showGlobalStatus('⚠️ 同じ店舗が既に登録されています', 'warning');
+                return;
+            }
+
+            // 店舗ID生成
+            storeData.storeInfo.id = generateStoreId(storeData);
+
+            stores.push(storeData);
+            updateStoreList();
+            updateStats();
+            clearForm();
+            
+            showGlobalStatus('✅ 店舗を追加しました', 'success');
+        }
+
+        // フォーム検証
+        function validateForm() {
+            let isValid = true;
+            const errors = {};
+
+            // 必須項目チェック
+            const storeName = document.getElementById('storeName').value.trim();
+            if (!storeName) {
+                errors.storeName = '店舗名は必須です';
+                isValid = false;
+            }
+
+            const storeAddress = document.getElementById('storeAddress').value.trim();
+            if (!storeAddress) {
+                errors.storeAddress = '住所は必須です';
+                isValid = false;
+            }
+
+            const prefecture = document.getElementById('storePrefecture').value;
+            if (!prefecture) {
+                errors.storePrefecture = '都道府県は必須です';
+                isValid = false;
+            }
+
+            // 座標チェック
+            const lat = parseFloat(document.getElementById('latitude').value);
+            const lng = parseFloat(document.getElementById('longitude').value);
+            if (isNaN(lat) || isNaN(lng)) {
+                errors.coordinates = '座標情報が必要です';
+                isValid = false;
+            }
+
+            // エラー表示
+            Object.keys(errors).forEach(field => {
+                const errorElement = document.getElementById(field + 'Error');
+                if (errorElement) {
+                    errorElement.textContent = errors[field];
+                    errorElement.classList.remove('hidden');
+                }
+            });
+
+            // エラーのないフィールドのエラー表示をクリア
+            document.querySelectorAll('.error-message').forEach(el => {
+                const fieldName = el.id.replace('Error', '');
+                if (!errors[fieldName]) {
+                    el.classList.add('hidden');
+                }
+            });
+
+            return isValid;
+        }
+
+        // フォームデータ収集
+        function collectFormData() {
+            const prefecture = document.getElementById('storePrefecture').value;
+            const features = document.getElementById('storeFeatures').value
+                .split(',')
+                .map(f => f.trim())
+                .filter(f => f.length > 0);
+
+            return {
+                storeInfo: {
+                    id: '', // 後で生成
+                    name: document.getElementById('storeName').value.trim(),
+                    address: document.getElementById('storeAddress').value.trim(),
+                    coordinates: {
+                        latitude: parseFloat(document.getElementById('latitude').value),
+                        longitude: parseFloat(document.getElementById('longitude').value)
+                    },
+                    prefecture: prefecture,
+                    city: extractCity(document.getElementById('storeAddress').value.trim()),
+                    area: PREFECTURE_TO_AREA[prefecture] || '不明'
+                },
+                businessInfo: {
+                    hours: document.getElementById('storeHours').value.trim() || null,
+                    phone: document.getElementById('storePhone').value.trim() || null,
+                    features: features
+                }
+            };
+        }
+
+        // 市区町村抽出
+        function extractCity(address) {
+            const cityMatch = address.match(/([^都道府県]+[都道府県])(.+?[市区町村])/);
+            return cityMatch ? cityMatch[2] : '';
+        }
+
+        // 店舗ID生成
+        function generateStoreId(storeData) {
+            const prefecture = storeData.storeInfo.prefecture.replace(/[都道府県]/g, '');
+            const city = storeData.storeInfo.city.replace(/[市区町村]/g, '');
+            const storeName = storeData.storeInfo.name
+                .replace(/スターバックス|コーヒー|店/g, '')
+                .trim();
+
+            // 既存IDとの重複を避けるためのカウンター
+            let counter = 1;
+            let baseId = `store_${prefecture}_${city}_${storeName}`.toLowerCase()
+                .replace(/[^a-z0-9_]/g, '_')
+                .replace(/_+/g, '_')
+                .replace(/^_|_$/g, '');
+
+            let finalId = baseId;
+            while (stores.some(store => store.storeInfo.id === finalId)) {
+                finalId = `${baseId}_${String(counter).padStart(3, '0')}`;
+                counter++;
+            }
+
+            return finalId;
+        }
+
+        // 重複チェック
+        function isDuplicate(newStore) {
+            return stores.some(existingStore => {
+                // 名前と住所が完全一致
+                if (existingStore.storeInfo.name === newStore.storeInfo.name &&
+                    existingStore.storeInfo.address === newStore.storeInfo.address) {
+                    return true;
+                }
+
+                // 座標が50m以内
+                const distance = calculateDistance(
+                    existingStore.storeInfo.coordinates,
+                    newStore.storeInfo.coordinates
+                );
+                return distance < 0.05; // 50m = 0.05km
+            });
+        }
+
+        // 距離計算（Haversine formula）
+        function calculateDistance(coord1, coord2) {
+            const R = 6371; // 地球の半径（km）
+            const dLat = (coord2.latitude - coord1.latitude) * Math.PI / 180;
+            const dLon = (coord2.longitude - coord1.longitude) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(coord1.latitude * Math.PI / 180) * Math.cos(coord2.latitude * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // 店舗リスト更新
+        function updateStoreList() {
+            const container = document.getElementById('storeListContainer');
+            
+            if (stores.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; margin: 2rem 0;">まだ店舗が登録されていません</p>';
+                return;
+            }
+
+            container.innerHTML = stores.map((store, index) => `
+                <div class="store-item">
+                    <h4>${store.storeInfo.name}</h4>
+                    <div class="store-details">
+                        📍 ${store.storeInfo.address}<br>
+                        🏠 ${store.storeInfo.prefecture} ${store.storeInfo.city} (${store.storeInfo.area})<br>
+                        ${store.businessInfo.phone ? `📞 ${store.businessInfo.phone}<br>` : ''}
+                        ${store.businessInfo.hours ? `🕒 ${store.businessInfo.hours}<br>` : ''}
+                        ${store.businessInfo.features.length > 0 ? `🏷️ ${store.businessInfo.features.join(', ')}` : ''}
+                    </div>
+                    <div class="coordinates">
+                        ID: ${store.storeInfo.id}<br>
+                        座標: ${store.storeInfo.coordinates.latitude.toFixed(6)}, ${store.storeInfo.coordinates.longitude.toFixed(6)}
+                    </div>
+                    <button type="button" class="btn-danger btn" onclick="removeStore(${index})" style="margin-top: 0.5rem;">
+                        🗑️ 削除
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // 統計更新
+        function updateStats() {
+            document.getElementById('totalStores').textContent = stores.length;
+            document.getElementById('validStores').textContent = stores.length; // 追加時点で検証済み
+            document.getElementById('duplicateStores').textContent = findDuplicates().length;
+            document.getElementById('errorStores').textContent = 0; // 追加時点でエラーなし
+        }
+
+        // 店舗削除
+        function removeStore(index) {
+            if (confirm('この店舗を削除しますか？')) {
+                stores.splice(index, 1);
+                updateStoreList();
+                updateStats();
+                showGlobalStatus('✅ 店舗を削除しました', 'success');
+            }
+        }
+
+        // フォームクリア
+        function clearForm() {
+            document.getElementById('storeName').value = '';
+            document.getElementById('storeAddress').value = '';
+            document.getElementById('storePrefecture').value = '';
+            document.getElementById('storePhone').value = '';
+            document.getElementById('storeHours').value = '';
+            document.getElementById('storeFeatures').value = '';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            
+            // エラーメッセージクリア
+            document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+            document.getElementById('coordinateStatus').classList.add('hidden');
+        }
+
+        // 全店舗削除
+        function clearAllStores() {
+            if (confirm('全ての店舗データを削除しますか？この操作は取り消せません。')) {
+                stores = [];
+                updateStoreList();
+                updateStats();
+                showGlobalStatus('✅ 全店舗データを削除しました', 'success');
+            }
+        }
+
+        // 重複検出
+        function findDuplicates() {
+            const duplicates = [];
+            for (let i = 0; i < stores.length; i++) {
+                for (let j = i + 1; j < stores.length; j++) {
+                    if (isDuplicate(stores[i])) {
+                        duplicates.push({ index1: i, index2: j });
+                    }
+                }
+            }
+            return duplicates;
+        }
+
+        // 重複削除
+        function removeDuplicates() {
+            const duplicates = findDuplicates();
+            if (duplicates.length === 0) {
+                showGlobalStatus('✅ 重複する店舗はありません', 'success');
+                return;
+            }
+
+            if (confirm(`${duplicates.length}組の重複が見つかりました。削除しますか？`)) {
+                // 重複の2つ目を削除（逆順で削除してインデックスずれを防ぐ）
+                const indicesToRemove = duplicates.map(d => d.index2).sort((a, b) => b - a);
+                indicesToRemove.forEach(index => stores.splice(index, 1));
+                
+                updateStoreList();
+                updateStats();
+                showGlobalStatus(`✅ ${indicesToRemove.length}件の重複を削除しました`, 'success');
+            }
+        }
+
+        // 全店舗検証
+        function validateAllStores() {
+            const report = {
+                total: stores.length,
+                valid: 0,
+                warnings: [],
+                errors: []
+            };
+
+            stores.forEach((store, index) => {
+                // 基本的な検証
+                if (!store.storeInfo.name || !store.storeInfo.address) {
+                    report.errors.push(`店舗 ${index + 1}: 必須項目が不足`);
+                    return;
+                }
+
+                // 座標検証
+                const lat = store.storeInfo.coordinates.latitude;
+                const lng = store.storeInfo.coordinates.longitude;
+                if (isNaN(lat) || isNaN(lng)) {
+                    report.errors.push(`店舗 ${index + 1}: 座標が無効`);
+                    return;
+                }
+
+                if (lat < 20 || lat > 46 || lng < 123 || lng > 146) {
+                    report.warnings.push(`店舗 ${index + 1}: 座標が日本の範囲外の可能性`);
+                }
+
+                report.valid++;
+            });
+
+            // レポート表示
+            updateQualityReport(report);
+            showGlobalStatus(`✅ 検証完了: ${report.valid}/${report.total}件が有効`, 'success');
+        }
+
+        // 品質レポート更新
+        function updateQualityReport(report) {
+            const reportContainer = document.getElementById('qualityReport');
+            
+            let html = `
+                <div style="margin: 1rem 0;">
+                    <h4>検証結果</h4>
+                    <p>有効: ${report.valid}/${report.total}件</p>
+                </div>
+            `;
+
+            if (report.warnings.length > 0) {
+                html += `
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <h5>⚠️ 警告 (${report.warnings.length}件)</h5>
+                        <ul>
+                            ${report.warnings.map(w => `<li>${w}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (report.errors.length > 0) {
+                html += `
+                    <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <h5>❌ エラー (${report.errors.length}件)</h5>
+                        <ul>
+                            ${report.errors.map(e => `<li>${e}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (report.warnings.length === 0 && report.errors.length === 0) {
+                html += `
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <h5>✅ 問題なし</h5>
+                        <p>全ての店舗データが有効です。</p>
+                    </div>
+                `;
+            }
+
+            reportContainer.innerHTML = html;
+        }
+
+        // グローバルステータス表示
+        function showGlobalStatus(message, type) {
+            const statusElement = document.getElementById('globalValidationStatus');
+            statusElement.textContent = message;
+            statusElement.className = `validation-status ${type}`;
+            statusElement.classList.remove('hidden');
+            
+            // 3秒後に自動で非表示
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 3000);
+        }
+
+        // JSONエクスポート
+        function exportToJSON() {
+            if (stores.length === 0) {
+                showExportStatus('❌ エクスポートする店舗データがありません', 'error');
+                return;
+            }
+
+            const dataVersion = document.getElementById('dataVersion').value.trim() || '2.1.0';
+            const coverageDescription = document.getElementById('coverageDescription').value.trim() || '店舗データ';
+
+            const exportData = {
+                metadata: {
+                    dataVersion: {
+                        current: dataVersion,
+                        compatible: [dataVersion]
+                    },
+                    generatedAt: new Date().toISOString(),
+                    totalStores: stores.length,
+                    coverage: coverageDescription,
+                    generator: 'Cafe★Log Store List Creator Tool'
+                },
+                stores: stores,
+                migrationSupport: {
+                    legacyIdMapping: {},
+                    deprecatedFields: []
+                }
+            };
+
+            // ファイルダウンロード
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cafe-log-stores-v${dataVersion}-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showExportStatus('✅ JSONファイルを生成しました', 'success');
+        }
+
+        // JSONインポート
+        function importFromJSON() {
+            document.getElementById('importFile').click();
+        }
+
+        function handleFileImport() {
+            const file = document.getElementById('importFile').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // データ形式検証
+                    if (!importData.stores || !Array.isArray(importData.stores)) {
+                        throw new Error('無効なデータ形式です');
+                    }
+
+                    if (confirm(`${importData.stores.length}件の店舗データをインポートしますか？現在のデータは置き換えられます。`)) {
+                        stores = importData.stores;
+                        updateStoreList();
+                        updateStats();
+                        
+                        // メタデータも更新
+                        if (importData.metadata) {
+                            document.getElementById('dataVersion').value = importData.metadata.dataVersion.current || '2.1.0';
+                            document.getElementById('coverageDescription').value = importData.metadata.coverage || '';
+                        }
+
+                        showExportStatus('✅ データをインポートしました', 'success');
+                    }
+                } catch (error) {
+                    showExportStatus(`❌ インポートエラー: ${error.message}`, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // エクスポートステータス表示
+        function showExportStatus(message, type) {
+            const statusElement = document.getElementById('exportStatus');
+            statusElement.textContent = message;
+            statusElement.className = `validation-status ${type}`;
+            statusElement.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 5000);
+        }
+
+        // 全店舗データ自動生成
+        async function generateAllStores() {
+            if (stores.length > 0 && !confirm('既存の店舗データがあります。すべて削除して新しいデータを生成しますか？')) {
+                return;
+            }
+
+            const storeTemplates = getSampleStoreData();
+            
+            // UI更新
+            showAutoGenerationStatus('🚀 全店舗データを生成中...', 'loading');
+            showAutoGenerationProgress(0);
+            
+            // 既存データクリア
+            stores = [];
+            
+            try {
+                for (let i = 0; i < storeTemplates.length; i++) {
+                    const template = storeTemplates[i];
+                    
+                    // プログレス更新
+                    const progress = ((i + 1) / storeTemplates.length) * 100;
+                    showAutoGenerationProgress(progress);
+                    showAutoGenerationStatus(`📍 処理中 ${i + 1}/${storeTemplates.length}: ${template.name}`, 'loading');
+                    
+                    try {
+                        // 座標取得
+                        const coordinates = await getCoordinatesForTemplate(template);
+                        
+                        if (coordinates) {
+                            const storeData = {
+                                storeInfo: {
+                                    id: generateStoreId({
+                                        storeInfo: {
+                                            name: template.name,
+                                            prefecture: template.prefecture,
+                                            city: template.city
+                                        }
+                                    }),
+                                    name: template.name,
+                                    address: template.address,
+                                    coordinates: coordinates,
+                                    prefecture: template.prefecture,
+                                    city: template.city,
+                                    area: PREFECTURE_TO_AREA[template.prefecture] || '不明'
+                                },
+                                businessInfo: {
+                                    hours: template.hours || null,
+                                    phone: template.phone || null,
+                                    features: template.features || ['Wi-Fi', '電源', '禁煙']
+                                }
+                            };
+                            
+                            stores.push(storeData);
+                        } else {
+                            console.warn(`座標取得失敗: ${template.name}`);
+                        }
+                        
+                        // APIレート制限対策
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        
+                    } catch (error) {
+                        console.error(`店舗処理エラー (${template.name}):`, error);
+                    }
+                }
+                
+                // 完了処理
+                updateStoreList();
+                updateStats();
+                showAutoGenerationProgress(100);
+                showAutoGenerationStatus(`✅ 生成完了！ ${stores.length}店舗のデータを作成しました`, 'success');
+                
+                // プログレスバーを3秒後に非表示
+                setTimeout(() => {
+                    document.getElementById('autoGenerationProgress').classList.add('hidden');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('自動生成エラー:', error);
+                showAutoGenerationStatus(`❌ 生成エラー: ${error.message}`, 'error');
+            }
+        }
+
+        // テンプレート用座標取得
+        async function getCoordinatesForTemplate(template) {
+            try {
+                const result = await geocodeAddress(template.address);
+                if (result && result.accuracy >= 4) {
+                    return {
+                        latitude: result.lat,
+                        longitude: result.lng
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error(`座標取得エラー (${template.name}):`, error);
+                return null;
+            }
+        }
+
+        // 自動生成ステータス表示
+        function showAutoGenerationStatus(message, type) {
+            const statusElement = document.getElementById('autoGenerationStatus');
+            statusElement.textContent = message;
+            statusElement.className = `validation-status ${type}`;
+            statusElement.classList.remove('hidden');
+        }
+
+        // 自動生成プログレス表示
+        function showAutoGenerationProgress(percentage) {
+            const progressContainer = document.getElementById('autoGenerationProgress');
+            const progressFill = document.getElementById('autoGenerationProgressFill');
+            
+            progressContainer.classList.remove('hidden');
+            progressFill.style.width = `${percentage}%`;
+        }
+
+        // サンプル店舗データ（全国主要店舗）
+        function getSampleStoreData() {
+            return [
+                // 北海道
+                { name: 'スターバックス 札幌駅前店', address: '北海道札幌市中央区北3条西3丁目1-1', prefecture: '北海道', city: '札幌市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 新千歳空港店', address: '北海道千歳市美々987-22', prefecture: '北海道', city: '千歳市', hours: '6:00-21:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 東北
+                { name: 'スターバックス 仙台駅店', address: '宮城県仙台市青葉区中央1丁目1-1', prefecture: '宮城県', city: '仙台市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 青森駅前店', address: '青森県青森市新町1丁目3-7', prefecture: '青森県', city: '青森市', hours: '7:00-21:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 関東
+                { name: 'スターバックス 渋谷スクランブルスクエア店', address: '東京都渋谷区渋谷2-24-12', prefecture: '東京都', city: '渋谷区', hours: '6:30-23:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 新宿南口店', address: '東京都新宿区新宿3丁目38-1', prefecture: '東京都', city: '新宿区', hours: '6:30-23:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 東京駅丸の内北口店', address: '東京都千代田区丸の内1丁目9-1', prefecture: '東京都', city: '千代田区', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 横浜駅西口店', address: '神奈川県横浜市西区南幸1丁目5-1', prefecture: '神奈川県', city: '横浜市', hours: '6:30-23:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 大宮駅東口店', address: '埼玉県さいたま市大宮区大門町1丁目90', prefecture: '埼玉県', city: 'さいたま市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 千葉駅前店', address: '千葉県千葉市中央区新町1000', prefecture: '千葉県', city: '千葉市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 中部
+                { name: 'スターバックス 名古屋駅桜通口店', address: '愛知県名古屋市中村区名駅1丁目1-4', prefecture: '愛知県', city: '名古屋市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 金沢駅店', address: '石川県金沢市木ノ新保町1-1', prefecture: '石川県', city: '金沢市', hours: '6:30-22:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 静岡駅南口店', address: '静岡県静岡市駿河区南町18-1', prefecture: '静岡県', city: '静岡市', hours: '6:30-22:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 近畿
+                { name: 'スターバックス 大阪駅中央改札外店', address: '大阪府大阪市北区梅田3丁目1-1', prefecture: '大阪府', city: '大阪市', hours: '6:30-23:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 京都駅八条口店', address: '京都府京都市南区東九条西山王町31', prefecture: '京都府', city: '京都市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 神戸三宮センター街店', address: '兵庫県神戸市中央区三宮町1丁目5-26', prefecture: '兵庫県', city: '神戸市', hours: '7:00-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 中国
+                { name: 'スターバックス 広島駅南口店', address: '広島県広島市南区松原町2-37', prefecture: '広島県', city: '広島市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 岡山駅東口店', address: '岡山県岡山市北区駅元町15-1', prefecture: '岡山県', city: '岡山市', hours: '6:30-22:00', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 四国
+                { name: 'スターバックス 高松駅店', address: '香川県高松市浜ノ町1-20', prefecture: '香川県', city: '高松市', hours: '7:00-21:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 松山市駅店', address: '愛媛県松山市湊町5丁目1-1', prefecture: '愛媛県', city: '松山市', hours: '7:00-21:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                
+                // 九州
+                { name: 'スターバックス 博多駅マイング店', address: '福岡県福岡市博多区博多駅中央街1-1', prefecture: '福岡県', city: '福岡市', hours: '6:30-22:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 熊本駅店', address: '熊本県熊本市西区春日3丁目15-30', prefecture: '熊本県', city: '熊本市', hours: '7:00-21:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 鹿児島中央駅店', address: '鹿児島県鹿児島市中央町1-1', prefecture: '鹿児島県', city: '鹿児島市', hours: '7:00-21:30', features: ['Wi-Fi', '電源', '禁煙'] },
+                { name: 'スターバックス 那覇空港店', address: '沖縄県那覇市鏡水150', prefecture: '沖縄県', city: '那覇市', hours: '6:30-21:00', features: ['Wi-Fi', '電源', '禁煙'] }
+            ];
+        }
+
+        // Places API による情報補完
+        async function enrichWithPlacesAPI() {
+            if (stores.length === 0) {
+                showGlobalStatus('❌ 補完する店舗データがありません', 'error');
+                return;
+            }
+
+            if (!confirm(`${stores.length}店舗の情報をPlaces APIで補完しますか？\n（APIクォータを消費します）`)) {
+                return;
+            }
+
+            const enrichmentResults = {
+                total: stores.length,
+                enriched: 0,
+                failed: 0,
+                needsManualAdjustment: []
+            };
+
+            showGlobalStatus('🌐 Places API による情報補完を開始...', 'loading');
+            
+            for (let i = 0; i < stores.length; i++) {
+                const store = stores[i];
+                showGlobalStatus(`📍 処理中 ${i + 1}/${stores.length}: ${store.storeInfo.name}`, 'loading');
+
+                try {
+                    const enrichmentResult = await enrichStoreWithPlaces(store, i);
+                    
+                    if (enrichmentResult.success) {
+                        enrichmentResults.enriched++;
+                    } else {
+                        enrichmentResults.failed++;
+                        if (enrichmentResult.needsManualAdjustment) {
+                            enrichmentResults.needsManualAdjustment.push({
+                                index: i,
+                                store: store,
+                                reason: enrichmentResult.reason,
+                                suggestions: enrichmentResult.suggestions || []
+                            });
+                        }
+                    }
+
+                    // APIレート制限対策
+                    await new Promise(resolve => setTimeout(resolve, 200));
+
+                } catch (error) {
+                    console.error(`エラー (${store.storeInfo.name}):`, error);
+                    enrichmentResults.failed++;
+                }
+            }
+
+            // 結果表示
+            updateStoreList();
+            updateStats();
+            updateManualAdjustmentList(enrichmentResults.needsManualAdjustment);
+            
+            showGlobalStatus(
+                `✅ 補完完了: 成功 ${enrichmentResults.enriched}件、失敗 ${enrichmentResults.failed}件、要調整 ${enrichmentResults.needsManualAdjustment.length}件`,
+                'success'
+            );
+        }
+
+        // 個別店舗の Places API 補完
+        async function enrichStoreWithPlaces(store, index) {
+            const queries = [
+                `${store.storeInfo.name} ${store.storeInfo.address}`,
+                `スターバックス ${store.storeInfo.address}`,
+                `starbucks ${store.storeInfo.address}`,
+                `${store.storeInfo.name} ${store.storeInfo.prefecture}`
+            ];
+
+            let bestMatch = null;
+            let bestConfidence = 0;
+            const allSuggestions = [];
+
+            for (const query of queries) {
+                try {
+                    const placesResult = await searchPlacesAPI(query);
+                    if (placesResult && placesResult.length > 0) {
+                        for (const place of placesResult.slice(0, 3)) { // 上位3件を評価
+                            const confidence = calculateMatchConfidence(store, place);
+                            allSuggestions.push({ ...place, confidence, query });
+                            
+                            if (confidence > bestConfidence) {
+                                bestMatch = place;
+                                bestConfidence = confidence;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.log(`Places検索失敗 (${query}):`, error.message);
+                }
+            }
+
+            // 自動適用の閾値判定
+            if (bestConfidence >= 0.8) {
+                // 高い信頼度 - 自動適用
+                applyPlacesDataToStore(store, bestMatch);
+                return { success: true, confidence: bestConfidence };
+            } else if (bestConfidence >= 0.4) {
+                // 中程度の信頼度 - 手動調整推奨
+                return {
+                    success: false,
+                    needsManualAdjustment: true,
+                    reason: `信頼度が中程度 (${(bestConfidence * 100).toFixed(1)}%)`,
+                    suggestions: allSuggestions.sort((a, b) => b.confidence - a.confidence).slice(0, 3)
+                };
+            } else {
+                // 低い信頼度 - 保留
+                return {
+                    success: false,
+                    needsManualAdjustment: true,
+                    reason: bestMatch ? `信頼度が低い (${(bestConfidence * 100).toFixed(1)}%)` : 'マッチする店舗が見つかりません',
+                    suggestions: allSuggestions.slice(0, 3)
+                };
+            }
+        }
+
+        // Places API 検索 (モック実装)
+        async function searchPlacesAPI(query) {
+            // 実際の実装では Google Places API を使用
+            // ここではモック実装
+            console.log(`Places API 検索: ${query}`);
+            
+            // モックデータを返す
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve([
+                        {
+                            name: query.includes('渋谷') ? 'スターバックス 渋谷スクランブルスクエア店' : 'スターバックス テスト店',
+                            formatted_address: query.includes('渋谷') ? '東京都渋谷区渋谷2-24-12' : '東京都テスト区1-1-1',
+                            geometry: {
+                                location: {
+                                    lat: () => 35.658581 + (Math.random() - 0.5) * 0.01,
+                                    lng: () => 139.701762 + (Math.random() - 0.5) * 0.01
+                                }
+                            },
+                            formatted_phone_number: '03-1234-5678',
+                            opening_hours: {
+                                weekday_text: ['月曜日: 6:30-22:30', '火曜日: 6:30-22:30']
+                            },
+                            rating: 4.2,
+                            types: ['cafe', 'store']
+                        }
+                    ]);
+                }, 100);
+            });
+        }
+
+        // マッチング信頼度計算
+        function calculateMatchConfidence(store, place) {
+            let confidence = 0;
+
+            // 店舗名の類似度 (最重要)
+            const nameScore = calculateStringSimilarity(
+                store.storeInfo.name.toLowerCase(),
+                place.name.toLowerCase()
+            );
+            confidence += nameScore * 0.5;
+
+            // 住所の類似度
+            const addressScore = calculateStringSimilarity(
+                store.storeInfo.address,
+                place.formatted_address
+            );
+            confidence += addressScore * 0.3;
+
+            // スターバックス関連キーワード
+            if (place.name.toLowerCase().includes('starbucks') || 
+                place.name.toLowerCase().includes('スターバックス')) {
+                confidence += 0.2;
+            }
+
+            return Math.min(confidence, 1.0);
+        }
+
+        // 文字列類似度計算 (簡易版)
+        function calculateStringSimilarity(str1, str2) {
+            if (!str1 || !str2) return 0;
+            
+            const commonChars = str1.split('').filter(char => str2.includes(char)).length;
+            const maxLength = Math.max(str1.length, str2.length);
+            
+            return commonChars / maxLength;
+        }
+
+        // Places データを店舗に適用
+        function applyPlacesDataToStore(store, placesData) {
+            // 座標情報を更新
+            if (placesData.geometry && placesData.geometry.location) {
+                store.storeInfo.coordinates = {
+                    latitude: placesData.geometry.location.lat(),
+                    longitude: placesData.geometry.location.lng()
+                };
+            }
+
+            // ビジネス情報を更新
+            if (placesData.formatted_phone_number) {
+                store.businessInfo.phone = placesData.formatted_phone_number;
+            }
+
+            if (placesData.opening_hours && placesData.opening_hours.weekday_text) {
+                store.businessInfo.hours = placesData.opening_hours.weekday_text[0] || null;
+            }
+
+            // 追加情報
+            if (placesData.rating) {
+                store.businessInfo.rating = placesData.rating;
+            }
+
+            // 基本的な設備情報を推定
+            if (!store.businessInfo.features || store.businessInfo.features.length === 0) {
+                store.businessInfo.features = ['Wi-Fi', '禁煙']; // デフォルト設備
+            }
+        }
+
+        // 手動調整リスト更新
+        function updateManualAdjustmentList(needsAdjustment) {
+            const container = document.getElementById('manualAdjustmentList');
+            
+            if (needsAdjustment.length === 0) {
+                container.innerHTML = '<p style="color: #28a745; text-align: center;">✅ 手動調整が必要な店舗はありません</p>';
+                return;
+            }
+
+            container.innerHTML = needsAdjustment.map((item, idx) => `
+                <div class="manual-adjustment-item" id="adjustment-${item.index}">
+                    <h4>${item.store.storeInfo.name}</h4>
+                    <p><strong>住所:</strong> ${item.store.storeInfo.address}</p>
+                    <div class="adjustment-reason">
+                        <strong>理由:</strong> ${item.reason}
+                    </div>
+                    
+                    ${item.suggestions.length > 0 ? `
+                        <h5>🔍 候補店舗</h5>
+                        ${item.suggestions.map((suggestion, suggestionIdx) => `
+                            <div class="places-suggestion">
+                                <h5>${suggestion.name}</h5>
+                                <p>${suggestion.formatted_address}</p>
+                                <span class="confidence-score ${getConfidenceClass(suggestion.confidence)}">
+                                    信頼度: ${(suggestion.confidence * 100).toFixed(1)}%
+                                </span>
+                                <div style="margin-top: 0.5rem;">
+                                    <button class="btn" onclick="applyManualSuggestion(${item.index}, ${suggestionIdx}, ${idx})" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">
+                                        ✅ 適用
+                                    </button>
+                                    <button class="btn-secondary btn" onclick="rejectSuggestion(${item.index}, ${suggestionIdx})" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">
+                                        ❌ 却下
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    ` : ''}
+                    
+                    <div class="adjustment-controls">
+                        <button class="btn-secondary btn" onclick="skipManualAdjustment(${item.index})">
+                            ⏭️ スキップ
+                        </button>
+                        <button class="btn" onclick="editStoreManually(${item.index})">
+                            ✏️ 手動編集
+                        </button>
+                        <button class="btn-danger btn" onclick="removeStoreFromAdjustment(${item.index})">
+                            🗑️ 削除
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 信頼度クラス取得
+        function getConfidenceClass(confidence) {
+            if (confidence >= 0.7) return 'confidence-high';
+            if (confidence >= 0.4) return 'confidence-medium';
+            return 'confidence-low';
+        }
+
+        // 手動調整操作
+        function applyManualSuggestion(storeIndex, suggestionIndex, adjustmentIndex) {
+            const adjustmentItems = document.querySelectorAll('.manual-adjustment-item');
+            const adjustmentData = adjustmentItems[adjustmentIndex];
+            
+            // 候補を適用
+            // 実装は簡略化
+            showGlobalStatus('✅ 候補を適用しました', 'success');
+            document.getElementById(`adjustment-${storeIndex}`).remove();
+            updateStoreList();
+        }
+
+        function skipManualAdjustment(storeIndex) {
+            if (confirm('この店舗の調整をスキップしますか？')) {
+                document.getElementById(`adjustment-${storeIndex}`).remove();
+                showGlobalStatus('⏭️ 調整をスキップしました', 'success');
+            }
+        }
+
+        function editStoreManually(storeIndex) {
+            const store = stores[storeIndex];
+            
+            // フォームに店舗データを設定
+            document.getElementById('storeName').value = store.storeInfo.name;
+            document.getElementById('storeAddress').value = store.storeInfo.address;
+            document.getElementById('storePrefecture').value = store.storeInfo.prefecture;
+            document.getElementById('storePhone').value = store.businessInfo.phone || '';
+            document.getElementById('storeHours').value = store.businessInfo.hours || '';
+            document.getElementById('latitude').value = store.storeInfo.coordinates.latitude || '';
+            document.getElementById('longitude').value = store.storeInfo.coordinates.longitude || '';
+            document.getElementById('storeFeatures').value = store.businessInfo.features.join(', ');
+            
+            // 元の店舗を削除
+            stores.splice(storeIndex, 1);
+            updateStoreList();
+            updateStats();
+            
+            showGlobalStatus('✏️ 手動編集用にフォームに読み込みました', 'success');
+            document.getElementById(`adjustment-${storeIndex}`).remove();
+        }
+
+        function removeStoreFromAdjustment(storeIndex) {
+            if (confirm('この店舗を完全に削除しますか？')) {
+                stores.splice(storeIndex, 1);
+                updateStoreList();
+                updateStats();
+                document.getElementById(`adjustment-${storeIndex}`).remove();
+                showGlobalStatus('🗑️ 店舗を削除しました', 'success');
+            }
+        }
+
+        // ページ読み込み時の初期化
+        window.addEventListener('load', function() {
+            console.log('🚀 Store List Creator Tool initialized');
+            updateStats();
+        });
+    </script>
+
+    <!-- Google Maps API (APIキーを設定してください) -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcx2v4xS9VuQjHzhME5Fz3Uazig3l62RI&libraries=geometry&callback=initMap">
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "dataVersion": {
+    "current": "2025.06.18",
+    "releaseDate": "2025-06-18T13:49:52.532Z",
+    "previousVersions": []
+  },
+  "updateInfo": {
+    "updateMethod": "manual",
+    "updateFrequency": "weekly",
+    "lastUpdateBy": "data-generator",
+    "autoUpdateEnabled": false
+  },
+  "dataQuality": {
+    "totalStores": 15,
+    "verifiedCoordinates": 14,
+    "lastValidated": "2025-06-18T13:49:52.532Z",
+    "validationStatus": "passed",
+    "coordinateAccuracy": "high"
+  },
+  "checksums": {
+    "store_list_v2025.06.18.json": "508d4b21b2b37ea2bfee1328cd925273018e7ff413957d56d5f5eb59ac1d0771",
+    "store_list.json": "508d4b21b2b37ea2bfee1328cd925273018e7ff413957d56d5f5eb59ac1d0771"
+  }
+}

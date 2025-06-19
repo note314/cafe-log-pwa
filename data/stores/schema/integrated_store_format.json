@@ -1,0 +1,170 @@
+{
+  "schema": {
+    "version": "2.0.0",
+    "description": "統合店舗データ形式 - 情報源とアプリ内管理の連携対応",
+    "lastUpdated": "2024-06-18T10:00:00Z"
+  },
+  "metadata": {
+    "dataVersion": {
+      "current": "2.1.0",
+      "releaseDate": "2024-06-18T10:00:00Z",
+      "dataSource": "manual-verification",
+      "totalStores": 1755,
+      "coverage": {
+        "prefectures": 47,
+        "regions": 7,
+        "coordinateAccuracy": "high"
+      }
+    },
+    "compatibility": {
+      "minAppVersion": "1.0.0",
+      "maxAppVersion": "2.x.x",
+      "migrationRequired": false
+    },
+    "updateInfo": {
+      "updateFrequency": "weekly",
+      "lastUpdateBy": "admin",
+      "nextScheduledUpdate": "2024-06-25T10:00:00Z"
+    }
+  },
+  "regions": {
+    "hokkaido_tohoku": {
+      "id": "hokkaido_tohoku",
+      "name": "北海道・東北",
+      "displayOrder": 1,
+      "prefectures": [
+        "hokkaido",
+        "aomori",
+        "iwate",
+        "miyagi",
+        "akita",
+        "yamagata",
+        "fukushima"
+      ]
+    }
+  },
+  "prefectures": {
+    "hokkaido": {
+      "id": "hokkaido",
+      "name": "北海道",
+      "regionId": "hokkaido_tohoku",
+      "displayOrder": 1,
+      "bounds": {
+        "north": 45.557,
+        "south": 41.388,
+        "east": 148.855,
+        "west": 139.349
+      },
+      "center": {
+        "lat": 43.220,
+        "lng": 142.864
+      },
+      "areas": {
+        "sapporo": {
+          "id": "sapporo",
+          "name": "札幌市",
+          "displayOrder": 1,
+          "storeCount": 25,
+          "bounds": {
+            "north": 43.239,
+            "south": 43.001,
+            "east": 141.544,
+            "west": 141.175
+          }
+        }
+      }
+    }
+  },
+  "stores": [
+    {
+      "storeInfo": {
+        "id": "hokkaido_sapporo_001",
+        "storeNumber": "0001",
+        "name": "スターバックス コーヒー さっぽろ創世スクエア店",
+        "nameKana": "サッポロソウセイスクエアテン",
+        "branch": "創世スクエア店",
+        "nameEn": "Starbucks Coffee Sapporo Sosei Square"
+      },
+      "location": {
+        "prefecture": "hokkaido",
+        "prefectureName": "北海道",
+        "area": "sapporo",
+        "areaName": "札幌市",
+        "address": "北海道札幌市中央区北1条西1丁目6番地 さっぽろ創世スクエア1階",
+        "postalCode": "060-0001",
+        "coordinates": {
+          "lat": 43.068661,
+          "lng": 141.356201,
+          "accuracy": "high",
+          "source": "verified",
+          "lastVerified": "2024-06-18T09:00:00Z"
+        },
+        "accessibility": {
+          "nearestStation": "さっぽろ駅",
+          "walkingMinutes": 3,
+          "parkingAvailable": false,
+          "barrierFree": true
+        }
+      },
+      "businessInfo": {
+        "phone": "011-200-5623",
+        "openingHours": {
+          "monday": "07:00-22:00",
+          "tuesday": "07:00-22:00",
+          "wednesday": "07:00-22:00",
+          "thursday": "07:00-22:00",
+          "friday": "07:00-22:00",
+          "saturday": "07:00-22:00",
+          "sunday": "07:00-22:00"
+        },
+        "openDate": "2018-10-06",
+        "storeType": "regular",
+        "services": [
+          "mobile-order",
+          "wifi",
+          "power-outlet",
+          "reserve-bar"
+        ]
+      },
+      "dataManagement": {
+        "sourceVersion": "2.1.0",
+        "lastUpdated": "2024-06-18T09:00:00Z",
+        "verifiedBy": "admin",
+        "changeHistory": [
+          {
+            "date": "2024-06-18T09:00:00Z",
+            "type": "coordinate-update",
+            "description": "座標精度向上"
+          }
+        ]
+      },
+      "userState": {
+        "_note": "このセクションはアプリ内でのみ管理され、情報源JSONには含めない",
+        "_structure": {
+          "visited": false,
+          "visitDate": null,
+          "visitCount": 0,
+          "favorite": false,
+          "personalNotes": "",
+          "photos": [],
+          "rating": null,
+          "lastVisited": null
+        }
+      }
+    }
+  ],
+  "migrationSupport": {
+    "legacyIdMapping": {
+      "hokkaido_sapporo_001": {
+        "oldId": "hokkaido_sapporo_001",
+        "newId": "hokkaido_sapporo_001",
+        "migrationRequired": false
+      }
+    },
+    "userDataPreservation": {
+      "visitedStores": "preserve_by_id",
+      "favoriteStores": "preserve_by_id",
+      "personalData": "preserve_all"
+    }
+  }
+}

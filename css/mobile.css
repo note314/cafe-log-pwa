@@ -1,0 +1,377 @@
+/* Mobile-First Optimization Styles */
+
+/* Touch-friendly interactive elements */
+button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
+  min-height: 44px; /* Apple's recommended minimum touch target */
+  min-width: 44px;
+}
+
+/* Enhanced touch targets for mobile */
+.section-btn {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+.hamburger-btn {
+  width: 48px;
+  height: 48px;
+}
+
+.map-pin-btn, .favorite-btn, .visit-toggle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile-optimized typography */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .app-title {
+    font-size: 1rem;
+  }
+  
+  .section-btn {
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.125rem; }
+}
+
+/* Enhanced mobile layout */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 0.75rem;
+  }
+  
+  .section {
+    padding: 1rem;
+  }
+  
+  .my-areas-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .store-grid, .area-grid, .region-grid, .prefecture-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .achievement-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .map-container {
+    height: 300px;
+    margin: 0 -1rem;
+    border-radius: 0;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* Mobile-specific interactions */
+@media (max-width: 480px) {
+  .section {
+    padding: 0.75rem;
+  }
+  
+  .map-container {
+    height: 250px;
+  }
+  
+  .store-item, .area-item, .region-item, .prefecture-item {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .store-actions {
+    gap: 0.75rem;
+  }
+  
+  .breadcrumb {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+  
+  .achievement-item {
+    padding: 1rem;
+  }
+  
+  .theme-options {
+    gap: 0.5rem;
+  }
+  
+  .theme-btn {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Improved scroll behavior for mobile */
+.section-nav {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.section-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Mobile-friendly form elements */
+@media (max-width: 768px) {
+  #storeSearch {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .input {
+    font-size: 16px;
+    padding: 1rem;
+  }
+}
+
+/* Enhanced mobile cards */
+@media (max-width: 480px) {
+  .area-card {
+    padding: 1rem;
+    min-height: 100px;
+  }
+  
+  .area-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .area-percentage {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+/* Mobile-optimized progress bars */
+.progress {
+  height: 6px;
+  border-radius: 3px;
+}
+
+@media (max-width: 480px) {
+  .progress {
+    height: 8px;
+    border-radius: 4px;
+  }
+}
+
+/* Touch-friendly menu */
+.menu-list a {
+  padding: 1.25rem 1.5rem;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Mobile-specific animations */
+@media (max-width: 768px) {
+  .card:hover {
+    transform: none; /* Disable hover effects on mobile */
+  }
+  
+  .card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  .btn-primary:active, .btn-secondary:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Improved mobile navigation */
+@media (max-width: 768px) {
+  .hamburger-menu.active .menu-content {
+    width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hamburger-menu.active .menu-content {
+    width: 260px;
+  }
+}
+
+/* Mobile-optimized achievement cards */
+@media (max-width: 480px) {
+  .achievement-card {
+    padding: 1.5rem !important;
+    margin: 0.5rem !important;
+  }
+  
+  .achievement-card h2 {
+    font-size: 1.25rem;
+  }
+  
+  .achievement-card .stat-item h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Mobile info windows for maps */
+@media (max-width: 480px) {
+  .info-window {
+    min-width: 200px !important;
+    font-size: 0.875rem;
+  }
+  
+  .info-window h4 {
+    font-size: 0.9rem;
+  }
+  
+  .info-window button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Enhanced mobile loading states */
+.loading-state {
+  padding: 3rem 1rem !important;
+}
+
+.loading {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* Mobile-optimized empty states */
+.empty-state {
+  padding: 2rem 1rem !important;
+  text-align: center;
+}
+
+.empty-state h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+}
+
+.empty-state p {
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Improved mobile toast notifications */
+@media (max-width: 480px) {
+  .toast {
+    right: 0.5rem !important;
+    left: 0.5rem !important;
+    max-width: none !important;
+    transform: translateY(-400px) !important;
+  }
+  
+  .toast.show {
+    transform: translateY(0) !important;
+  }
+}
+
+/* Mobile-specific utility classes */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Enhanced mobile accessibility */
+@media (max-width: 768px) {
+  .sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  
+  /* Show labels on mobile for better UX */
+  .mobile-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* Mobile-optimized grid layouts */
+@media (max-width: 480px) {
+  .regional-grid, .favorite-areas-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .regional-item, .favorite-area-item {
+    padding: 1rem;
+  }
+  
+  .regional-header, .favorite-area-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Improved mobile performance */
+@media (max-width: 768px) {
+  * {
+    -webkit-transform: translateZ(0); /* Force hardware acceleration */
+    transform: translateZ(0);
+  }
+  
+  .map-container {
+    will-change: transform; /* Optimize for animations */
+  }
+  
+  .section {
+    will-change: contents; /* Optimize for content changes */
+  }
+}
+
+/* Mobile-specific dark mode adjustments */
+@media (max-width: 480px) {
+  [data-theme="dark"] .card {
+    border: 1px solid var(--border-color);
+  }
+  
+  [data-theme="dark"] .modal-content {
+    border: 1px solid var(--border-color);
+  }
+}

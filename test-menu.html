@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Test - Cafe★Log</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        .menu-item { padding: 1rem; margin: 0.5rem 0; border: 1px solid #ccc; }
+        .duplicate { background-color: #ffebee; }
+        .normal { background-color: #e8f5e8; }
+    </style>
+</head>
+<body>
+    <h1>🔍 ハンバーガーメニュー重複テスト</h1>
+    
+    <div id="menu-analysis">
+        <h2>メニュー分析結果</h2>
+        <div id="results"></div>
+    </div>
+    
+    <div id="menu-simulation">
+        <h2>シミュレーション</h2>
+        <button onclick="simulateMenu()">メニューを生成</button>
+        <div id="simulated-menu"></div>
+    </div>
+
+    <script>
+        // HTML内のメニュー項目を解析
+        function analyzeMenuItems() {
+            const results = document.getElementById('results');
+            
+            // 実際のメニュー項目（静的HTML）
+            const staticMenuItems = [
+                'テーマ切替',
+                'QRコード', 
+                'お知らせ',
+                '免責事項',
+                '店舗データ更新',
+                'データ初期化'
+            ];
+            
+            // 重複チェック
+            const counts = {};
+            staticMenuItems.forEach(item => {
+                counts[item] = (counts[item] || 0) + 1;
+            });
+            
+            let html = '<h3>静的メニュー項目:</h3>';
+            for (const [item, count] of Object.entries(counts)) {
+                const cssClass = count > 1 ? 'duplicate' : 'normal';
+                html += `<div class="menu-item ${cssClass}">${item} (${count}回)</div>`;
+            }
+            
+            results.innerHTML = html;
+        }
+        
+        // メニューシミュレーション
+        function simulateMenu() {
+            const container = document.getElementById('simulated-menu');
+            
+            // 正常なメニュー
+            const menuItems = [
+                { text: 'テーマ切替', action: 'theme' },
+                { text: 'QRコード', action: 'qr' },
+                { text: 'お知らせ', action: 'notices' },
+                { text: '免責事項', action: 'disclaimer' },
+                { text: '店舗データ更新', action: 'store-update' },
+                { text: 'データ初期化', action: 'reset' }
+            ];
+            
+            let html = '<h3>シミュレーション結果:</h3><ul>';
+            menuItems.forEach(item => {
+                html += `<li>${item.text} (action: ${item.action})</li>`;
+            });
+            html += '</ul>';
+            
+            container.innerHTML = html;
+        }
+        
+        // ページ読み込み時に実行
+        window.onload = function() {
+            analyzeMenuItems();
+        };
+    </script>
+</body>
+</html>

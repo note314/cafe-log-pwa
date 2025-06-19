@@ -1,0 +1,218 @@
+{
+  "regions": {
+    "hokkaido_tohoku": {
+      "name": "北海道・東北",
+      "prefectures": ["hokkaido", "aomori", "iwate", "miyagi", "akita", "yamagata", "fukushima"]
+    },
+    "kanto": {
+      "name": "関東",
+      "prefectures": ["ibaraki", "tochigi", "gunma", "saitama", "chiba", "tokyo", "kanagawa"]
+    },
+    "chubu": {
+      "name": "中部",
+      "prefectures": ["niigata", "toyama", "ishikawa", "fukui", "yamanashi", "nagano"]
+    },
+    "tokai": {
+      "name": "東海",
+      "prefectures": ["gifu", "shizuoka", "aichi", "mie"]
+    },
+    "kinki": {
+      "name": "近畿",
+      "prefectures": ["shiga", "kyoto", "osaka", "hyogo", "nara", "wakayama"]
+    },
+    "chugoku_shikoku": {
+      "name": "中国・四国",
+      "prefectures": ["tottori", "shimane", "okayama", "hiroshima", "yamaguchi", "tokushima", "kagawa", "ehime", "kochi"]
+    },
+    "kyushu_okinawa": {
+      "name": "九州・沖縄",
+      "prefectures": ["fukuoka", "saga", "nagasaki", "kumamoto", "oita", "miyazaki", "kagoshima", "okinawa"]
+    }
+  },
+  "prefectures": {
+    "tokyo": {
+      "name": "東京都",
+      "areas": {
+        "central_ginza": {
+          "name": "中央・銀座",
+          "wards": ["chiyoda", "chuo", "minato"]
+        },
+        "shibuya_shinjuku": {
+          "name": "渋谷・新宿",
+          "wards": ["shibuya", "shinjuku", "toshima", "nakano"]
+        },
+        "ueno_asakusa": {
+          "name": "上野・浅草",
+          "wards": ["taito", "bunkyo", "sumida", "arakawa", "adachi"]
+        },
+        "shinagawa_ota": {
+          "name": "品川・大田",
+          "wards": ["shinagawa", "ota", "meguro", "setagaya"]
+        },
+        "itabashi_others": {
+          "name": "板橋ほか",
+          "wards": ["itabashi", "nerima", "suginami", "koto", "edogawa", "katsushika"]
+        },
+        "outside_wards": {
+          "name": "区外",
+          "cities": ["musashino", "mitaka", "chofu", "machida", "hachioji", "tachikawa"]
+        }
+      }
+    },
+    "kanagawa": {
+      "name": "神奈川県",
+      "areas": {
+        "yokohama": {
+          "name": "横浜市",
+          "type": "designated_city"
+        },
+        "kawasaki": {
+          "name": "川崎市",
+          "type": "designated_city"
+        },
+        "sagamihara": {
+          "name": "相模原市",
+          "type": "designated_city"
+        },
+        "others": {
+          "name": "その他",
+          "type": "other_cities"
+        }
+      }
+    },
+    "osaka": {
+      "name": "大阪府",
+      "areas": {
+        "osaka_city": {
+          "name": "大阪市",
+          "type": "designated_city"
+        },
+        "sakai": {
+          "name": "堺市",
+          "type": "designated_city"
+        },
+        "others": {
+          "name": "その他",
+          "type": "other_cities"
+        }
+      }
+    }
+  },
+  "stores": [
+    {
+      "id": "tokyo_shibuya_001",
+      "name": "スターバックス コーヒー 渋谷スカイ店",
+      "address": "東京都渋谷区渋谷2-24-12 渋谷スクランブルスクエア14F",
+      "prefecture": "tokyo",
+      "area": "shibuya_shinjuku",
+      "lat": 35.6580339,
+      "lng": 139.7016358,
+      "phone": "03-6805-2323",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "tokyo_shinjuku_001",
+      "name": "スターバックス コーヒー 新宿南口店",
+      "address": "東京都渋谷区代々木2-2-1 小田急サザンタワー2F",
+      "prefecture": "tokyo",
+      "area": "shibuya_shinjuku", 
+      "lat": 35.6896067,
+      "lng": 139.7005713,
+      "phone": "03-5354-7891",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "tokyo_ginza_001",
+      "name": "スターバックス コーヒー 銀座マロニエゲート店",
+      "address": "東京都中央区銀座3-2-1 マロニエゲート2F",
+      "prefecture": "tokyo",
+      "area": "central_ginza",
+      "lat": 35.6732067,
+      "lng": 139.7643018,
+      "phone": "03-5250-0871",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "tokyo_ueno_001",
+      "name": "スターバックス コーヒー 上野恩賜公園店",
+      "address": "東京都台東区上野公園8-22",
+      "prefecture": "tokyo",
+      "area": "ueno_asakusa",
+      "lat": 35.7148066,
+      "lng": 139.7743018,
+      "phone": "03-5834-1630",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "tokyo_shinagawa_001",
+      "name": "スターバックス コーヒー 品川駅店",
+      "address": "東京都港区高輪3-26-27",
+      "prefecture": "tokyo",
+      "area": "shinagawa_ota",
+      "lat": 35.6284067,
+      "lng": 139.7387018,
+      "phone": "03-5421-8951",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "kanagawa_yokohama_001",
+      "name": "スターバックス コーヒー 横浜ランドマークタワー店",
+      "address": "神奈川県横浜市西区みなとみらい2-2-1 横浜ランドマークタワー69F",
+      "prefecture": "kanagawa",
+      "area": "yokohama",
+      "lat": 35.4547067,
+      "lng": 139.6317018,
+      "phone": "045-224-5631",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "kanagawa_kawasaki_001",
+      "name": "スターバックス コーヒー 川崎駅前店",
+      "address": "神奈川県川崎市川崎区駅前本町12-1 リバーク2F",
+      "prefecture": "kanagawa",
+      "area": "kawasaki",
+      "lat": 35.5308067,
+      "lng": 139.6978018,
+      "phone": "044-200-8561",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "osaka_namba_001",
+      "name": "スターバックス コーヒー なんばパークス店",
+      "address": "大阪府大阪市浪速区難波中2-10-70 なんばパークス2F",
+      "prefecture": "osaka",
+      "area": "osaka_city",
+      "lat": 34.6634067,
+      "lng": 135.5017018,
+      "phone": "06-6644-2951",
+      "visited": false,
+      "favorite": false
+    },
+    {
+      "id": "osaka_umeda_001",
+      "name": "スターバックス コーヒー 梅田茶屋町店",
+      "address": "大阪府大阪市北区茶屋町1-27 ABC-MART梅田ビル1F",
+      "prefecture": "osaka",
+      "area": "osaka_city",
+      "lat": 34.7056067,
+      "lng": 135.4987018,
+      "phone": "06-6292-8751",
+      "visited": false,
+      "favorite": false
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-01-17",
+    "total_stores": 9,
+    "total_prefectures": 3,
+    "total_areas": 11
+  }
+}
