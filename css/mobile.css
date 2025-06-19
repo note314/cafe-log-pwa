@@ -26,6 +26,43 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   justify-content: center;
 }
 
+/* Extra small screens */
+@media (max-width: 360px) {
+  .section-btn {
+    font-size: 0.7rem;
+    padding: 0.75rem 0.25rem;
+    min-width: 70px;
+  }
+  
+  .achievement-grid-modern {
+    gap: 0.5rem; /* 更に狭い間隔 */
+  }
+  
+  .achievement-card-modern {
+    height: 180px; /* より小さな高さ */
+    padding: 0.5rem 0.25rem; /* パディング縮小 */
+  }
+  
+  .stat-number {
+    font-size: 1.5rem !important; /* フォントサイズ調整 */
+  }
+  
+  .stat-separator,
+  .stat-total {
+    font-size: 1rem !important;
+  }
+  
+  .app-title {
+    font-size: 1.5rem !important; /* 極小画面では少し小さく */
+  }
+  
+  .logo {
+    width: 38px !important; /* 極小画面ではロゴも少し小さく */
+    height: 38px !important;
+    left: calc(50% - 6rem) !important; /* 極小画面ではより近くに配置 */
+  }
+}
+
 /* Mobile-optimized typography */
 @media (max-width: 480px) {
   html {
@@ -33,17 +70,31 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   }
   
   .app-title {
-    font-size: 1rem;
+    font-size: 2rem; /* 2倍に変更 (1rem × 2) */
+  }
+  
+  .logo {
+    left: calc(50% - 7rem); /* モバイルサイズでのロゴ位置調整 */
   }
   
   .section-btn {
-    font-size: 0.875rem;
-    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    padding: 0.75rem 0.5rem;
+    min-width: 80px;
   }
   
   h1 { font-size: 1.5rem; }
   h2 { font-size: 1.25rem; }
   h3 { font-size: 1.125rem; }
+}
+
+/* Medium screen optimization */
+@media (min-width: 481px) and (max-width: 768px) {
+  .section-btn {
+    font-size: 0.875rem;
+    padding: 0.75rem 0.75rem;
+    min-width: 100px;
+  }
 }
 
 /* Enhanced mobile layout */
@@ -54,6 +105,11 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   
   .section {
     padding: 1rem;
+  }
+  
+  .section-btn {
+    flex-shrink: 1;
+    white-space: nowrap;
   }
   
   .my-areas-grid {
@@ -73,9 +129,10 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   }
   
   .map-container {
-    height: 300px;
+    max-width: 100%;
     margin: 0 -1rem;
     border-radius: 0;
+    /* アスペクト比はベースCSSで設定済み */
   }
   
   .modal-content {
@@ -92,7 +149,8 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   }
   
   .map-container {
-    height: 250px;
+    max-width: 100%;
+    /* 小画面では最大幅を画面幅に合わせる */
   }
   
   .store-item, .area-item, .region-item, .prefecture-item {

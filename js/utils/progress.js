@@ -122,12 +122,30 @@ class ProgressManager {
 
   // Calculate favorite prefectures progress
   getFavoritePrefecturesProgress() {
+    console.log('📊 Getting favorite prefectures progress...');
+    
+    if (!window.storageManager) {
+      console.error('❌ storageManager not available in getFavoritePrefecturesProgress');
+      return [];
+    }
+    
     const favoritePrefectures = window.storageManager.getFavoritePrefectures();
+    console.log('📋 Favorite prefectures for progress:', favoritePrefectures);
+    
+    if (!this.storeData) {
+      console.error('❌ storeData not available in getFavoritePrefecturesProgress');
+      return [];
+    }
+    
     const results = [];
     
     favoritePrefectures.forEach(prefectureId => {
+      console.log(`📍 Processing prefecture: ${prefectureId}`);
+      
       const progress = this.getPrefectureProgress(prefectureId);
       const prefectureName = this.getPrefectureName(prefectureId);
+      
+      console.log(`📊 Progress for ${prefectureId}:`, progress, 'Name:', prefectureName);
       
       results.push({
         key: prefectureId,
@@ -137,6 +155,7 @@ class ProgressManager {
       });
     });
     
+    console.log('✅ Final favorite prefectures progress results:', results);
     return results;
   }
 

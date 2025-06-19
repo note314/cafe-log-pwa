@@ -46,27 +46,60 @@ class TopPage {
   }
 
   async refreshMyAreas() {
-    if (!this.myAreasGrid || !window.progressManager) return;
+    console.log('🔄 Refreshing My Areas...');
+    
+    if (!this.myAreasGrid) {
+      console.error('❌ myAreasGrid element not found');
+      return;
+    }
+    
+    if (!window.progressManager) {
+      console.error('❌ progressManager not available');
+      return;
+    }
+    
+    if (!window.storageManager) {
+      console.error('❌ storageManager not available');
+      return;
+    }
 
     // Get favorite prefectures from storage
     const favoritePrefectures = window.storageManager.getFavoritePrefectures();
+    console.log('📋 Favorite prefectures:', favoritePrefectures);
     
     if (favoritePrefectures.length === 0) {
+      console.log('📭 No favorite prefectures found, showing empty state');
       this.showEmptyMyAreas();
       return;
     }
 
-    // Get progress for favorite prefectures
-    const favoritePrefecturesProgress = window.progressManager.getFavoritePrefecturesProgress();
-    
-    // Clear existing content
-    this.myAreasGrid.innerHTML = '';
-    
-    // Create prefecture cards
-    favoritePrefecturesProgress.forEach(prefecture => {
-      const card = this.createAreaCard(prefecture);
-      this.myAreasGrid.appendChild(card);
-    });
+    try {
+      // Get progress for favorite prefectures
+      const favoritePrefecturesProgress = window.progressManager.getFavoritePrefecturesProgress();
+      console.log('📊 Favorite prefectures progress:', favoritePrefecturesProgress);
+      
+      // Clear existing content
+      this.myAreasGrid.innerHTML = '';
+      
+      if (favoritePrefecturesProgress.length === 0) {
+        console.warn('⚠️ No progress data available for favorite prefectures');
+        this.showEmptyMyAreas();
+        return;
+      }
+      
+      // Create prefecture cards
+      favoritePrefecturesProgress.forEach((prefecture, index) => {
+        console.log(`🏷️ Creating card for ${prefecture.name} (${prefecture.key})`);
+        const card = this.createAreaCard(prefecture);
+        this.myAreasGrid.appendChild(card);
+      });
+      
+      console.log(`✅ Successfully created ${favoritePrefecturesProgress.length} My Area cards`);
+      
+    } catch (error) {
+      console.error('❌ Error refreshing My Areas:', error);
+      this.showEmptyMyAreas();
+    }
   }
 
   showEmptyMyAreas() {
@@ -75,11 +108,30 @@ class TopPage {
         <div style="font-size: 3rem; margin-bottom: 1rem;">🌟</div>
         <h3 style="margin-bottom: 0.5rem;">マイエリアを設定しましょう</h3>
         <p style="margin-bottom: 1.5rem;">店舗リストからお気に入りの都道府県を選択してください</p>
-        <button class="btn-primary" onclick="window.navigationManager.navigate('stores')">
+        <button class="btn-primary" onclick="window.navigationManager.navigate('stores')" style="margin-right: 1rem;">
           店舗リストへ
+        </button>
+        <button class="btn-secondary" onclick="window.topPage.addTestArea()" style="background: #666; color: white; padding: 0.75rem 1rem; border-radius: 4px; border: none; cursor: pointer;">
+          テスト用エリア追加
         </button>
       </div>
     `;
+  }
+  
+  // Temporary test function for debugging
+  addTestArea() {
+    console.log('🧪 Adding test area for debugging...');
+    
+    // Add Tokyo as test favorite prefecture
+    if (window.storageManager) {
+      window.storageManager.addFavoritePrefecture('tokyo');
+      console.log('✅ Added Tokyo to favorite prefectures');
+      
+      // Refresh the display
+      this.refreshMyAreas();
+    } else {
+      console.error('❌ storageManager not available');
+    }
   }
 
   createAreaCard(area) {

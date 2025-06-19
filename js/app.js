@@ -129,6 +129,18 @@ class StarbucksApp {
     // Initialize map last (requires Google Maps API)
     if (window.mapManager) {
       await window.mapManager.initializeMainMap();
+      
+      // Force map resize after CSS is fully applied
+      setTimeout(() => {
+        window.mapManager.resize();
+        console.log('🗺️ Map resized after initialization');
+      }, 200);
+    }
+    
+    // Ensure all components refresh their data after initialization
+    console.log('🔄 Refreshing component data after initialization...');
+    if (this.components.topPage) {
+      await this.components.topPage.refresh();
     }
   }
 

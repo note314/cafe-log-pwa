@@ -16,6 +16,8 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   padding-bottom: 1rem;
+  /* PWA safe area support */
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 /* Accessibility */

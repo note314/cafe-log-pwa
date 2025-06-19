@@ -60,13 +60,25 @@ class MapManager {
   }
 
   async initializeMainMap() {
+    console.log('🗺️ Initializing main map...');
+    
     if (!this.isLoaded) {
+      console.log('⏳ Google Maps API not loaded yet, queueing operation');
       this.pendingOperations.push('initializeMainMap');
       return;
     }
 
     const mapElement = document.getElementById('map');
-    if (!mapElement) return;
+    if (!mapElement) {
+      console.error('❌ Map element not found');
+      return;
+    }
+    
+    console.log('📐 Map element dimensions:', {
+      width: mapElement.offsetWidth,
+      height: mapElement.offsetHeight,
+      computed: window.getComputedStyle(mapElement)
+    });
 
     this.map = new google.maps.Map(mapElement, {
       center: this.defaultCenter,
@@ -77,6 +89,8 @@ class MapManager {
       zoomControl: true,
       styles: this.getMapStyles()
     });
+    
+    console.log('✅ Main map created successfully');
 
     // Create info window without close button
     this.infoWindow = new google.maps.InfoWindow({
@@ -378,31 +392,65 @@ class MapManager {
   }
 
   async loadAndDisplayStores() {
+    console.log('📍 Loading and displaying stores...');
+    
     const storeData = await this.loadStoreData();
-    if (!storeData || !this.map) return;
+    if (!storeData) {
+      console.error('❌ No store data available');
+      return;
+    }
+    
+    if (!this.map) {
+      console.error('❌ Map not initialized');
+      return;
+    }
+    
+    console.log('📊 Store data loaded:', {
+      storeCount: storeData.stores?.length || 0,
+      hasStores: !!storeData.stores
+    });
 
     // Clear existing markers
     this.clearMarkers();
 
     // Create markers for each store
     const visitedStores = window.storageManager.getVisitedStores();
+    console.log('📋 Visited stores:', visitedStores);
     
-    storeData.stores.forEach(store => {
+    let createdMarkers = 0;
+    let skippedMarkers = 0;
+    
+    storeData.stores.forEach((store, index) => {
       const isVisited = visitedStores.includes(store.storeInfo?.id || store.id);
       const marker = this.createStoreMarker(store, isVisited);
-      if (marker) { // nullチェック
+      if (marker) {
         this.markers.push(marker);
+        createdMarkers++;
+      } else {
+        skippedMarkers++;
+        console.warn(`⚠️ Failed to create marker for store ${index}:`, store);
       }
     });
+    
+    console.log(`📍 Marker creation results: ${createdMarkers} created, ${skippedMarkers} skipped`);
 
     // Initialize marker clustering
     this.initializeMarkerClustering();
+    
+    console.log('✅ Store loading and display completed');
   }
 
   createStoreMarker(store, isVisited) {
+    console.log('🏷️ Creating marker for store:', {
+      storeName: store.storeInfo?.name || store.name,
+      storeId: store.storeInfo?.id || store.id,
+      coordinates: store.location?.coordinates,
+      isVisited: isVisited
+    });
+    
     // 新しいデータ構造に対応した座標取得
     if (!store.location?.coordinates?.lat || !store.location?.coordinates?.lng) {
-      console.warn(`Store ${store.storeInfo?.name || store.name} has no valid coordinates`);
+      console.warn(`❌ Store ${store.storeInfo?.name || store.name} has no valid coordinates`);
       return null;
     }
     
@@ -410,6 +458,8 @@ class MapManager {
       lat: store.location.coordinates.lat, 
       lng: store.location.coordinates.lng 
     };
+    
+    console.log('📍 Creating marker at position:', position);
     
     const marker = new google.maps.Marker({
       position: position,
@@ -1019,9 +1069,20 @@ class MapManager {
   resize() {
     if (this.map) {
       google.maps.event.trigger(this.map, 'resize');
+      // Force redraw to ensure markers are properly positioned
+      setTimeout(() => {
+        if (this.map.getCenter()) {
+          this.map.panBy(0, 0);
+        }
+      }, 100);
     }
     if (this.achievementMap) {
       google.maps.event.trigger(this.achievementMap, 'resize');
+      setTimeout(() => {
+        if (this.achievementMap.getCenter()) {
+          this.achievementMap.panBy(0, 0);
+        }
+      }, 100);
     }
   }
 }
