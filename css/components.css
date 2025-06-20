@@ -137,7 +137,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 48px;
   background-color: var(--header-background, var(--surface-elevated));
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -261,7 +261,7 @@
 }
 
 .menu-list {
-  padding: 80px 0 20px 0; /* Account for header height */
+  padding: 68px 0 20px 0; /* Account for header height */
 }
 
 .menu-list li {
