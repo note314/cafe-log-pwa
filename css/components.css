@@ -145,9 +145,8 @@
   padding: 0 1rem;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  /* PWA safe area support */
   padding-top: env(safe-area-inset-top);
-  height: calc(60px + env(safe-area-inset-top));
+  height: calc(48px + env(safe-area-inset-top));
 }
 
 .hamburger-btn {
@@ -196,24 +195,19 @@
   align-items: center;
   gap: 0.75rem;
   flex: 1;
-  justify-content: center; /* 中央寄せに戻す */
-  position: relative; /* 子要素の絶対配置の基準点 */
+  justify-content: center;
+  margin-left: -40px; /* Compensate for hamburger button */
 }
 
 .logo {
-  width: 43.2px; /* 1.2倍に拡大 (36px × 1.2) */
-  height: 43.2px; /* 1.2倍に拡大 (36px × 1.2) */
-  position: absolute;
-  left: calc(50% - 8rem); /* Cafe★Logの左側に配置 */
+  width: 36px;
+  height: 36px;
 }
 
 .app-title {
-  font-size: 2.25rem; /* 2倍に変更 (1.125rem × 2) */
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--header-text, var(--text-primary));
-  position: absolute; /* 絶対配置で中央に配置 */
-  left: 50%;
-  transform: translateX(-50%); /* 中央揃え */
 }
 
 /* Hamburger Menu */
@@ -261,7 +255,7 @@
 }
 
 .menu-list {
-  padding: 68px 0 20px 0; /* Account for header height */
+  padding: calc(48px + env(safe-area-inset-top) + 20px) 0 20px 0; /* Account for header height */
 }
 
 .menu-list li {
@@ -283,8 +277,8 @@
 
 /* Main Content */
 .main-content {
-  margin-top: calc(60px + env(safe-area-inset-top)); /* Account for fixed header with safe area */
-  min-height: calc(100vh - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin-top: calc(48px + env(safe-area-inset-top)); /* Account for fixed header with safe area */
+  min-height: calc(100vh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 /* Section Navigation */
@@ -1290,7 +1284,7 @@
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: calc(60px + env(safe-area-inset-top));
+    margin-top: calc(48px + env(safe-area-inset-top));
   }
   
   .map-container {

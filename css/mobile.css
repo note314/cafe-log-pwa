@@ -53,13 +53,12 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   }
   
   .app-title {
-    font-size: 1.5rem !important; /* 極小画面では少し小さく */
+    font-size: 0.875rem !important;
   }
   
   .logo {
-    width: 38px !important; /* 極小画面ではロゴも少し小さく */
-    height: 38px !important;
-    left: calc(50% - 6rem) !important; /* 極小画面ではより近くに配置 */
+    width: 28px !important;
+    height: 28px !important;
   }
 }
 
@@ -70,11 +69,12 @@ button, .btn, .card, .store-item, .area-item, .region-item, .prefecture-item {
   }
   
   .app-title {
-    font-size: 2rem; /* 2倍に変更 (1rem × 2) */
+    font-size: 1rem;
   }
   
   .logo {
-    left: calc(50% - 7rem); /* モバイルサイズでのロゴ位置調整 */
+    width: 32px;
+    height: 32px;
   }
   
   .section-btn {
